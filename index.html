@@ -1,0 +1,3008 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>南科 鍋爐 取得竣工許可 計畫期程資訊看板</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Inter & Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              800: '#0c4a6e',
+            },
+            cyntec: '#00629b'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* 自訂滾動條樣式 */
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .pulse-effect {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+      animation: pulse-ring 2s infinite cubic-bezier(0.66, 0, 0, 1);
+    }
+    @keyframes pulse-ring {
+      to {
+        box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+      }
+    }
+
+    /* ---------------- 主題切換樣式系統 ---------------- */
+    /* 1. 暗色科技主題 (Dark Mode) */
+    body.theme-dark {
+      background-color: #0b1120 !important;
+      color: #f1f5f9 !important;
+    }
+    body.theme-dark header,
+    body.theme-dark footer,
+    body.theme-dark .bg-white {
+      background-color: #1e293b !important;
+      color: #f8fafc !important;
+      border-color: #334155 !important;
+    }
+    body.theme-dark .bg-slate-50 {
+      background-color: #0f172a !important;
+      border-color: #334155 !important;
+    }
+    body.theme-dark .bg-slate-100 {
+      background-color: #334155 !important;
+      color: #f1f5f9 !important;
+    }
+    body.theme-dark .text-slate-900 {
+      color: #ffffff !important;
+    }
+    body.theme-dark .text-slate-800 {
+      color: #f1f5f9 !important;
+    }
+    body.theme-dark .text-slate-700,
+    body.theme-dark .text-slate-600,
+    body.theme-dark .text-slate-500 {
+      color: #94a3b8 !important;
+    }
+    body.theme-dark .border-slate-200,
+    body.theme-dark .border-slate-100 {
+      border-color: #334155 !important;
+    }
+
+    /* 2. 黃光無塵室專用主題 (Cleanroom Yellow Room Mode) - 高對比琥珀/純黑，防黃光吃色 */
+    body.theme-cleanroom {
+      background-color: #080804 !important;
+      color: #fef08a !important;
+    }
+    body.theme-cleanroom header,
+    body.theme-cleanroom footer,
+    body.theme-cleanroom .bg-white {
+      background-color: #16150b !important;
+      color: #fef08a !important;
+      border-color: #ca8a04 !important;
+    }
+    body.theme-cleanroom .bg-slate-50,
+    body.theme-cleanroom .bg-slate-100 {
+      background-color: #242211 !important;
+      color: #fde047 !important;
+      border-color: #a16207 !important;
+    }
+    body.theme-cleanroom .text-slate-900,
+    body.theme-cleanroom .text-slate-800 {
+      color: #fef9c3 !important;
+    }
+    body.theme-cleanroom .text-slate-700,
+    body.theme-cleanroom .text-slate-600,
+    body.theme-cleanroom .text-slate-500 {
+      color: #eab308 !important;
+    }
+    body.theme-cleanroom .border-slate-200,
+    body.theme-cleanroom .border-slate-100 {
+      border-color: #854d0e !important;
+    }
+    body.theme-cleanroom .bg-sky-500,
+    body.theme-cleanroom .from-sky-600 {
+      background-color: #eab308 !important;
+      color: #000000 !important;
+    }
+    body.theme-cleanroom .text-sky-600,
+    body.theme-cleanroom .text-sky-700,
+    body.theme-cleanroom .text-sky-300 {
+      color: #facc15 !important;
+    }
+    body.theme-cleanroom .bg-amber-50,
+    body.theme-cleanroom .bg-amber-50\/70 {
+      background-color: #1f1b0a !important;
+      border-color: #eab308 !important;
+      color: #fef08a !important;
+    }
+    body.theme-cleanroom .text-amber-800,
+    body.theme-cleanroom .text-amber-900,
+    body.theme-cleanroom .text-amber-950 {
+      color: #fde047 !important;
+    }
+
+    /* ---------------- 新增：滑鼠懸停提示窗與行動端底部抽屜樣式 ---------------- */
+    /* 1. 電腦端動態浮動 Hover Tooltip */
+    #hoverPreviewTooltip {
+      position: fixed;
+      pointer-events: none;
+      z-index: 60;
+      opacity: 0;
+      transform: translate(-50%, -10px) scale(0.96);
+      transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+    }
+    #hoverPreviewTooltip.show {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+    }
+    /* 讓懸停資訊視窗寬度與內距隨自訂字體縮放自動伸縮 */
+    #hoverPreviewTooltip .tooltip-inner {
+      width: 22rem;
+      max-width: 90vw;
+      font-size: 0.8125rem;
+    }
+    body.theme-dark #hoverPreviewTooltip .tooltip-inner {
+      background-color: #0f172a;
+      border-color: #334155;
+      color: #f1f5f9;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7);
+    }
+    body.theme-cleanroom #hoverPreviewTooltip .tooltip-inner {
+      background-color: #1a1708;
+      border-color: #eab308;
+      color: #fef08a;
+      box-shadow: 0 10px 25px -5px rgba(234, 179, 8, 0.25);
+    }
+
+    /* 2. 手機端滑出式底部抽屜 (Bottom Sheet) */
+    #mobileDetailSheet {
+      transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.28s ease;
+    }
+    #mobileSheetBackdrop {
+      transition: opacity 0.25s ease;
+    }
+    body.theme-dark #mobileDetailSheet {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+      border-color: #334155 !important;
+    }
+    body.theme-cleanroom #mobileDetailSheet {
+      background-color: #14130a !important;
+      color: #fef08a !important;
+      border-color: #ca8a04 !important;
+    }
+
+    /* ---------------- 新增：列印與全螢幕簡報樣式優化 ---------------- */
+    @media print {
+      header, footer, #hoverPreviewTooltip, #mobileSheetModal, #hoverSettingsModal, .no-print {
+        display: none !important;
+      }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .bg-white, .bg-slate-50, .bg-slate-100 {
+        background: #ffffff !important;
+        border-color: #cbd5e1 !important;
+      }
+    }
+    .search-highlight {
+      background-color: #fef08a;
+      color: #854d0e;
+      padding: 0 3px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-sky-500 selection:text-white transition-colors duration-200">
+
+  <!-- 頂部導航與標題 -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs transition-colors duration-200">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+      
+      <!-- 標題與廠區資訊 -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-sky-500/20 shrink-0">
+          <i class="fa-solid fa-fire-burner text-lg"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 bg-sky-100 text-sky-800 rounded-md">專案工程期程看板</span>
+            <span class="text-xs text-slate-500 hidden sm:inline">Cyntec (A Delta Group Company)</span>
+          </div>
+          <h1 class="text-lg sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+            南科 鍋爐 取得竣工許可 計畫期程
+          </h1>
+        </div>
+      </div>
+      
+      <!-- 控制列：頁面切換、字體縮放、色彩主題切換、軸線視圖切換 -->
+      <div class="flex flex-wrap items-center justify-between md:justify-end gap-2">
+        
+        <!-- 主頁面 / 2026 行事曆 / 專案全貌總覽 三頁切換器 -->
+        <div class="bg-slate-100 p-1 rounded-xl flex items-center text-xs font-bold gap-1 shadow-2xs">
+          <button id="navMainPageBtn" onclick="switchMainPage('main')" title="回到專案主看板 (快捷鍵: 1)" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-chart-gantt"></i><span>主期程看板</span>
+          </button>
+          <button id="navCalendarPageBtn" onclick="switchMainPage('calendar')" title="前往 2026 行事曆與時程分析 (快捷鍵: 2)" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-calendar-days text-sky-600"></i><span>2026 行事曆</span>
+          </button>
+          <button id="navOverviewPageBtn" onclick="switchMainPage('overview')" title="檢視專案全貌戰情室 (快捷鍵: 3)" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-compass-drafting text-indigo-600"></i><span>專案全貌總覽</span>
+          </button>
+        </div>
+
+        <!-- 全域即時關鍵字搜尋 -->
+        <div class="relative flex items-center text-xs">
+          <i class="fa-solid fa-magnifying-glass absolute left-2.5 text-slate-400"></i>
+          <input type="text" id="globalSearchInput" oninput="handleGlobalSearch(this.value)" placeholder="全域搜尋工項/安全閥/代檢..." class="pl-8 pr-6 py-1.5 w-36 sm:w-44 bg-slate-100 focus:bg-white rounded-xl border border-transparent focus:border-sky-400 focus:ring-2 focus:ring-sky-100 transition text-xs text-slate-800 placeholder-slate-400 focus:outline-none">
+          <button id="clearSearchBtn" onclick="clearGlobalSearch()" class="hidden absolute right-2 text-slate-400 hover:text-slate-600 text-[10px]">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- 字體放大/縮小控制 -->
+        <div class="bg-slate-100 p-1 rounded-xl flex items-center text-xs font-bold">
+          <button onclick="changeFontSize(-10)" title="縮小字體" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-white text-slate-700 transition" aria-label="縮小字體">
+            <i class="fa-solid fa-font text-xs"></i><span class="text-[10px] -mt-1 font-black">-</span>
+          </button>
+          <button onclick="resetFontSize()" title="重設標準字體 (100%)" class="px-2 h-7 flex items-center justify-center rounded-lg hover:bg-white text-slate-700 font-mono text-[11px] transition">
+            <span id="fontScaleDisplay">100%</span>
+          </button>
+          <button onclick="changeFontSize(10)" title="放大字體" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-white text-slate-700 transition" aria-label="放大字體">
+            <i class="fa-solid fa-font text-xs"></i><span class="text-[10px] -mt-1 font-black">+</span>
+          </button>
+        </div>
+
+        <!-- 主題切換 (明亮 / 暗色 / 黃光無塵室) -->
+        <div class="bg-slate-100 p-1 rounded-xl flex items-center text-xs font-semibold gap-1">
+          <button id="themeLightBtn" onclick="setAppTheme('light')" title="明亮主題" class="px-2 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition flex items-center gap-1">
+            <i class="fa-solid fa-sun text-amber-500"></i><span class="hidden sm:inline">明亮</span>
+          </button>
+          <button id="themeDarkBtn" onclick="setAppTheme('dark')" title="深色夜間模式" class="px-2 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 transition flex items-center gap-1">
+            <i class="fa-solid fa-moon text-indigo-400"></i><span class="hidden sm:inline">暗色</span>
+          </button>
+          <button id="themeCleanroomBtn" onclick="setAppTheme('cleanroom')" title="無塵室黃光專用主題" class="px-2 py-1.5 rounded-lg text-amber-700 hover:bg-amber-100/60 font-bold transition flex items-center gap-1">
+            <i class="fa-solid fa-lightbulb text-yellow-500"></i><span>黃光無塵室</span>
+          </button>
+        </div>
+
+        <!-- 晨會進度文字一鍵複製按鈕 -->
+        <button onclick="copyStatusReport()" title="複製專案晨會/週報摘要文字 (已適配 Teams/Line/Email)" class="px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5">
+          <i class="fa-solid fa-clipboard-check text-emerald-600"></i>
+          <span class="hidden lg:inline">晨報複製</span>
+        </button>
+
+        <!-- 全螢幕簡報切換按鈕 -->
+        <button onclick="toggleFullScreen()" title="切換全螢幕簡報投影模式 (快捷鍵: F)" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center justify-center">
+          <i id="fullscreenIcon" class="fa-solid fa-expand text-slate-600"></i>
+        </button>
+
+        <!-- 懸停時間自訂設定按鈕 -->
+        <button onclick="openHoverSettingsModal()" title="自訂懸停延遲與顯示時間" class="px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5">
+          <i class="fa-solid fa-stopwatch text-sky-600"></i>
+          <span class="hidden xl:inline">懸停設定</span>
+        </button>
+
+        <!-- 軸線視圖切換器 -->
+        <div class="bg-slate-100 p-1 rounded-xl flex items-center text-xs font-semibold gap-1">
+          <button id="viewHorizontalBtn" onclick="switchTimelineView('horizontal')" class="px-2 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition flex items-center gap-1">
+            <i class="fa-solid fa-arrows-left-right"></i><span class="hidden sm:inline">橫向</span>
+          </button>
+          <button id="viewVerticalBtn" onclick="switchTimelineView('vertical')" class="px-2 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 transition flex items-center gap-1">
+            <i class="fa-solid fa-arrows-up-down"></i><span class="hidden sm:inline">直式</span>
+          </button>
+          <button id="viewGridBtn" onclick="switchTimelineView('grid')" class="px-2 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 transition flex items-center gap-1">
+            <i class="fa-solid fa-table-cells-large"></i><span class="hidden sm:inline">卡片</span>
+          </button>
+        </div>
+
+        <button onclick="window.print()" class="hidden lg:inline-flex items-center px-2.5 py-1.5 text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition">
+          <i class="fa-solid fa-print mr-1"></i> 列印
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主內容容器 -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-6">
+
+    <!-- ================================= 頁面一：專案主看板 ================================= -->
+    <div id="viewMainDashboard" class="space-y-6">
+
+      <!-- 快速進入行事曆的通知 Banner -->
+      <div class="bg-gradient-to-r from-sky-50 via-indigo-50 to-amber-50 border border-sky-200/80 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs">
+        <div class="flex items-center space-x-3">
+          <span class="w-9 h-9 rounded-xl bg-sky-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+            <i class="fa-solid fa-calendar-week text-sm"></i>
+          </span>
+          <div>
+            <h4 class="text-xs sm:text-sm font-bold text-slate-900">2026 年行事曆排程與 13 個管制節點間隔天數分析</h4>
+            <p class="text-[11px] sm:text-xs text-slate-500">已獨立建置專屬頁面，含互動式十/十一/十二月專案月曆及週末施工避雷預警</p>
+          </div>
+        </div>
+        <button onclick="switchMainPage('calendar')" class="px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-sky-700 font-bold text-xs border border-sky-300 shadow-2xs transition flex items-center gap-1.5 shrink-0">
+          <span>開啟 2026 月曆分析</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </button>
+      </div>
+
+      <!-- 概覽重要 KPI 摘要 -->
+      <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md transition">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-500">期程啟動日 (2026)</span>
+            <span class="p-2 bg-rose-50 text-rose-600 rounded-xl text-xs"><i class="fa-solid fa-flag-checkered"></i></span>
+          </div>
+          <p class="text-2xl font-black text-slate-900 mt-1">10 / 30 <span class="text-xs font-bold text-slate-400 font-sans">(五)</span></p>
+          <p class="text-xs text-rose-600 font-semibold mt-1">設備 MRO 及下單截止</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md transition">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-500">預計工檢核可</span>
+            <span class="p-2 bg-amber-50 text-amber-600 rounded-xl text-xs"><i class="fa-solid fa-stamp"></i></span>
+          </div>
+          <p class="text-2xl font-black text-slate-900 mt-1">12 / 11 <span class="text-xs font-bold text-slate-400 font-sans">(五)</span></p>
+          <p class="text-xs text-amber-600 font-semibold mt-1">需依代檢機構時間為主</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md transition">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-500">目標取證日</span>
+            <span class="p-2 bg-yellow-50 text-yellow-600 rounded-xl text-xs"><i class="fa-solid fa-award"></i></span>
+          </div>
+          <p class="text-2xl font-black text-slate-900 mt-1">12 / 31 <span class="text-xs font-bold text-slate-400 font-sans">(四)</span></p>
+          <p class="text-xs text-emerald-600 font-semibold mt-1">取得正式許可證 (歷時63天)</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md transition">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-500">熱媒操作溫度</span>
+            <span class="p-2 bg-cyan-50 text-cyan-600 rounded-xl text-xs"><i class="fa-solid fa-temperature-three-quarters"></i></span>
+          </div>
+          <p class="text-2xl font-black text-slate-900 mt-1">345 °C</p>
+          <p class="text-xs text-sky-600 font-semibold mt-1">沸點359°C以下 (液相常壓)</p>
+        </div>
+      </section>
+
+      <!-- 主區塊：專案里程碑互動時程軸 -->
+      <section class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 md:p-6 overflow-hidden">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-lg font-bold text-slate-900 flex items-center">
+                <i class="fa-solid fa-route text-sky-600 mr-2"></i>工程推動時間軸與節點檢核
+              </h2>
+              <span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium">共 13 個管制節點</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">點擊各節點可即時查看詳細執行標準、主責權責單位與關聯要求</p>
+          </div>
+
+          <!-- 單位篩選器 -->
+          <div class="flex flex-wrap items-center gap-1.5 text-xs">
+            <span class="text-slate-400 font-medium mr-1"><i class="fa-solid fa-filter mr-1"></i>篩選:</span>
+            <button onclick="filterDepartment('ALL')" class="dept-btn active px-2.5 py-1 rounded-lg bg-sky-600 text-white font-medium transition" data-dept="ALL">全部 (13)</button>
+            <button onclick="filterDepartment('CRITICAL')" class="dept-btn px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 font-bold transition flex items-center gap-1" data-dept="CRITICAL">
+              <i class="fa-solid fa-triangle-exclamation text-rose-500"></i>關鍵路徑 (4)
+            </button>
+            <button onclick="filterDepartment('設備')" class="dept-btn px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium transition" data-dept="設備">設備單位</button>
+            <button onclick="filterDepartment('南科廠務')" class="dept-btn px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium transition" data-dept="南科廠務">南科廠務</button>
+            <button onclick="filterDepartment('廠務本部')" class="dept-btn px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium transition" data-dept="廠務本部">廠務本部</button>
+            <button onclick="filterDepartment('南科環安')" class="dept-btn px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium transition" data-dept="南科環安">南科環安</button>
+          </div>
+        </div>
+
+        <!-- 圖例說明 -->
+        <div class="flex flex-wrap items-center gap-4 text-xs text-slate-500 my-3">
+          <div class="flex items-center gap-1.5">
+            <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+            <span>紅色節點：關鍵瓶頸／重大承諾項目 (前置、補件、發文、工檢)</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-3 h-3 rounded-full bg-sky-500 inline-block"></span>
+            <span>藍色節點：標準工程作業與執行節點</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-3 h-3 rounded-full bg-yellow-400 inline-block border border-yellow-500"></span>
+            <span>黃色節點：最終里程碑 (竣工證照取得)</span>
+          </div>
+        </div>
+
+        <!-- 視圖1：橫向滑動軸線 (桌面 & 平板推薦) -->
+        <div id="timelineScrollView" class="mt-4 overflow-x-auto custom-scrollbar pb-6 pt-2">
+          <div class="relative min-w-[1100px] px-6">
+            <!-- 橫向貫穿箭頭線 -->
+            <div class="absolute top-[82px] left-8 right-6 h-3 bg-gradient-to-r from-sky-100 via-sky-200 to-sky-300 rounded-full z-0 flex items-center justify-end">
+              <div class="w-0 h-0 border-t-8 border-b-8 border-l-12 border-t-transparent border-b-transparent border-l-sky-400 -mr-2"></div>
+            </div>
+
+            <!-- 節點容器 -->
+            <div class="grid grid-cols-13 gap-1 relative z-10" id="timelineNodesContainer">
+              <!-- 由 JS 動態注入 13 個節點 -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 視圖2：直式時間軸 (Vertical Stepper 完美適配手機與平板直向瀏覽) -->
+        <div id="timelineVerticalView" class="hidden mt-6 relative pl-3 sm:pl-6 space-y-4">
+          <!-- 直向貫穿連接線 -->
+          <div class="absolute left-7 sm:left-10 top-3 bottom-3 w-1 bg-gradient-to-b from-sky-300 via-sky-400 to-yellow-400 rounded-full -translate-x-1/2 z-0"></div>
+          <div id="timelineVerticalNodesContainer" class="space-y-4 relative z-10">
+            <!-- 由 JS 動態注入直式節點清單 (支援原位展開閱讀) -->
+          </div>
+        </div>
+
+        <!-- 視圖3：響應式卡片列表 (網格檢視) -->
+        <div id="timelineGridView" class="hidden mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <!-- 由 JS 動態注入卡片 -->
+        </div>
+      </section>
+
+      <!-- 節點詳細互動展示窗 (桌面與平板專用看板區塊) -->
+      <section id="nodeDetailDrawer" class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-2xl p-5 md:p-6 shadow-lg border border-slate-700 transition-all">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-700/80 pb-4">
+          <div class="flex items-center space-x-3">
+            <span id="detailBadge" class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider bg-rose-500 text-white">關鍵重要節點</span>
+            <span id="detailDate" class="text-2xl font-black tracking-tight text-white font-mono">10/30</span>
+            <h3 id="detailTitle" class="text-xl font-bold text-sky-300">前置作業 (7大核心工項整備)</h3>
+          </div>
+          <div class="text-xs text-slate-300 flex items-center gap-2">
+            <span>主責承辦：</span>
+            <span id="detailOwner" class="px-2.5 py-1 bg-slate-700 text-sky-200 rounded-md font-semibold">設備單位</span>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="space-y-2">
+            <h4 class="text-xs font-semibold uppercase text-slate-400 tracking-wider">節點背景與管制重點要求</h4>
+            <p id="detailDesc" class="text-sm text-slate-200 leading-relaxed bg-slate-800/80 p-3.5 rounded-xl border border-slate-700">
+              設備單位須於 10/30 前全面完成 MRO 採購程序及正式下單，包含換油、安全閥安裝、超音波開口、差壓聯動與耐壓測試等核心工程。
+            </p>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-xs font-semibold uppercase text-slate-400 tracking-wider">工程執行要項 / 審核要點</h4>
+            <div id="detailExtra" class="text-xs text-amber-200 bg-amber-950/40 border border-amber-800/60 p-3.5 rounded-xl leading-normal">
+              <i class="fa-solid fa-triangle-exclamation mr-1 text-amber-400"></i>
+              設備單位必須在指定期限前如期完成備品與人員派案，是後續現勘之最基礎前置門檻。
+            </div>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-xs font-semibold uppercase text-slate-400 tracking-wider">前後關聯與交付產出 (Engineering Meta)</h4>
+            <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 text-xs space-y-2 text-slate-300">
+              <div>
+                <span class="text-sky-400 font-bold block"><i class="fa-solid fa-link mr-1"></i>前置依賴條件：</span>
+                <span id="detailPreReq" class="text-slate-200">無 (專案起始點)</span>
+              </div>
+              <div>
+                <span class="text-emerald-400 font-bold block"><i class="fa-solid fa-box-archive mr-1"></i>核心交付物：</span>
+                <span id="detailDeliverable" class="text-slate-200">MRO 採購單、7大工項委外合約</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 下半部雙欄配置：左側前置工作檢核表 + 右側熱媒油參數與技術核心 -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- 左側：10/30 前置作業 7 大核心工項 (可互動勾選) -->
+        <section class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-xs p-5 md:p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-sm">
+                  <i class="fa-solid fa-list-check"></i>
+                </span>
+                <div>
+                  <h3 class="font-bold text-slate-900 text-base">設備單位 前置作業檢核 (10/30 前完成 MRO 及下單)</h3>
+                  <p class="text-xs text-slate-500">點擊核選項目可即時追蹤項目完成率</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span id="checklistPercentage" class="text-sm font-black text-rose-600 font-mono">0%</span>
+                <span class="text-xs text-slate-400 block">完成進度</span>
+              </div>
+            </div>
+
+            <!-- 進度條 -->
+            <div class="w-full bg-slate-100 h-2 rounded-full mt-3 overflow-hidden">
+              <div id="checklistProgressBar" class="h-full bg-gradient-to-r from-rose-500 to-emerald-500 transition-all duration-300 w-0"></div>
+            </div>
+
+            <!-- 7大工項列表 -->
+            <div class="mt-4 space-y-2.5" id="taskChecklist">
+              <!-- Item 1 -->
+              <label class="group flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:border-sky-300 hover:bg-sky-50/40 cursor-pointer transition">
+                <input type="checkbox" onchange="updateProgress()" class="mt-1 w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm font-semibold text-slate-800">① 換油 (THERMINOL 66)</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-600">熱媒換新</span>
+                  </div>
+                  <p class="text-xs text-slate-500 mt-0.5">置換高效能合成熱媒油，確保系統長效熱穩定性</p>
+                </div>
+              </label>
+
+              <!-- Item 2 -->
+              <label class="group flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:border-sky-300 hover:bg-sky-50/40 cursor-pointer transition">
+                <input type="checkbox" onchange="updateProgress()" class="mt-1 w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm font-semibold text-slate-800">② 安裝鍋爐安全閥</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-medium">防護關鍵</span>
+                  </div>
+                  <p class="text-xs text-slate-500 mt-0.5">鍋爐壓力安全洩放閥裝設，校驗排量符合法規規格</p>
+                </div>
+              </label>
+
+              <!-- Item 3 -->
+              <label class="group flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:border-sky-300 hover:bg-sky-50/40 cursor-pointer transition">
+                <input type="checkbox" onchange="updateProgress()" class="mt-1 w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm font-semibold text-slate-800">③ 鍋爐超音波量測口開口</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-600">檢測準備</span>
+                  </div>
+                  <p class="text-xs text-slate-500 mt-0.5">預留管路超音波流量/厚度檢測開口供後續稽核驗收</p>
+                </div>
+              </label>
+
+              <!-- Item 4 -->
+              <label class="group flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:border-sky-300 hover:bg-sky-50/40 cursor-pointer transition">
+                <input type="checkbox" onchange="updateProgress()" class="mt-1 w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm font-semibold text-slate-800">④ 安裝鍋爐出入口熱媒油差壓開關</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-medium">安全連動</span>
+                  </div>
+                  <p class="text-xs text-rose-600 mt-0.5 font-medium">★ 必須連動加熱器斷開 (Interlock 保護迴路確保不斷流燒毀)</p>
+                </div>
+              </label>
+
+              <!-- Item 5 -->
+              <label class="group flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:border-sky-300 hover:bg-sky-50/40 cursor-pointer transition">
+                <input type="checkbox" onchange="updateProgress()" class="mt-1 w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm font-semibold text-slate-800">⑤ 專業機構 (安全閥 / 泵計算 / 現勘)</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded bg-sky-50 text-sky-700 font-medium">第三方簽證</span>
+                  </div>
+                  <p class="text-xs text-slate-500 mt-0.5">洽詢代檢機構進行安全閥排放量、循環泵能力核算與現場查勘</p>
+                </div>
+              </label>
+
+              <!-- Item 6 -->
+              <label class="group flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:border-sky-300 hover:bg-sky-50/40 cursor-pointer transition">
+                <input type="checkbox" onchange="updateProgress()" class="mt-1 w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm font-semibold text-slate-800">⑥ 鍋爐本體耐壓測試</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded bg-purple-50 text-purple-700 font-bold font-mono">22.5 Kg/cm²</span>
+                  </div>
+                  <p class="text-xs text-slate-500 mt-0.5">本體水壓/耐壓強度試驗達 22.5 Kg/cm²，無洩漏與變形</p>
+                </div>
+              </label>
+
+              <!-- Item 7 -->
+              <label class="group flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:border-sky-300 hover:bg-sky-50/40 cursor-pointer transition">
+                <input type="checkbox" onchange="updateProgress()" class="mt-1 w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm font-semibold text-slate-800">⑦ 安全閥測試 (初噴 / 停噴)</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-medium">作動校驗</span>
+                  </div>
+                  <p class="text-xs text-slate-500 mt-0.5">實測跳脫起跳壓力 (初噴) 及回座壓力 (停噴)，作動靈敏度確認</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span><i class="fa-solid fa-circle-info mr-1 text-sky-500"></i>下單後續追蹤：廠商供料期程與現場配管排程</span>
+            <button onclick="resetChecklist()" class="text-slate-400 hover:text-slate-600 underline">重設勾選</button>
+          </div>
+        </section>
+
+        <!-- 右側：熱媒油 THERMINOL 66 物性指標 & Find out 實測技術結論 -->
+        <section class="lg:col-span-5 space-y-6">
+          
+          <!-- 物性資料表與溫度區間儀表 -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 md:p-6">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-sm">
+                  <i class="fa-solid fa-oil-well"></i>
+                </span>
+                <div>
+                  <h3 class="font-bold text-slate-900 text-base">THERMINOL 66 熱媒油物性規範</h3>
+                  <p class="text-xs text-slate-500">合成高溫熱媒技術參數</p>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 bg-sky-50 text-sky-700 text-xs font-semibold rounded-md">液相運行</span>
+            </div>
+
+            <!-- 物性指標表格 -->
+            <div class="mt-4 overflow-hidden rounded-xl border border-slate-200 text-xs">
+              <table class="w-full text-left">
+                <thead class="bg-slate-100 text-slate-700 font-semibold">
+                  <tr>
+                    <th class="py-2.5 px-3">項目指標</th>
+                    <th class="py-2.5 px-3 text-right">規格數值</th>
+                    <th class="py-2.5 px-3">狀態判定</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr class="hover:bg-slate-50">
+                    <td class="py-2 px-3 font-medium text-slate-700">閃火點 (Flash Point)</td>
+                    <td class="py-2 px-3 text-right font-mono font-bold text-slate-900">184 °C</td>
+                    <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-amber-50 text-amber-600 text-[11px]">可燃蒸氣初現</span></td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="py-2 px-3 font-medium text-slate-700">著火點 (Fire Point)</td>
+                    <td class="py-2 px-3 text-right font-mono font-bold text-slate-900">212 °C</td>
+                    <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-orange-50 text-orange-600 text-[11px]">持續燃燒點</span></td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="py-2 px-3 font-medium text-slate-700">使用溫度範圍</td>
+                    <td class="py-2 px-3 text-right font-mono font-bold text-emerald-700">0 ~ 345 °C</td>
+                    <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 text-[11px]">液相顯著熱安定</span></td>
+                  </tr>
+                  <tr class="bg-sky-50/70">
+                    <td class="py-2.5 px-3 font-bold text-sky-900">實際操作溫度 (設定)</td>
+                    <td class="py-2.5 px-3 text-right font-mono font-extrabold text-sky-700 text-sm">345 °C</td>
+                    <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded-full bg-sky-200 text-sky-900 font-bold text-[11px]">生產需求上限</span></td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="py-2 px-3 font-medium text-slate-700">常壓沸點 (Boiling Point)</td>
+                    <td class="py-2 px-3 text-right font-mono font-bold text-purple-700">359 °C</td>
+                    <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 text-[11px]">汽化相變點</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 視覺化安全梯尺 -->
+            <div class="mt-5 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+              <div class="flex items-center justify-between text-xs mb-1.5">
+                <span class="font-bold text-slate-700">溫度階層視覺化分析 (0°C ~ 400°C)</span>
+                <span class="font-mono text-slate-500">安全裕度: 14°C</span>
+              </div>
+              <div class="relative w-full h-7 bg-slate-200 rounded-lg overflow-hidden flex text-[10px] font-bold">
+                <div style="width: 46%;" class="bg-emerald-400 text-emerald-950 flex items-center justify-center" title="安全工作區間">
+                  &lt; 184°C
+                </div>
+                <div style="width: 7%;" class="bg-amber-400 text-amber-950 flex items-center justify-center" title="閃火~著火">
+                  !
+                </div>
+                <div style="width: 33.25%;" class="bg-sky-500 text-white flex items-center justify-center font-bold" title="高溫操作區間 345°C">
+                  345°C 操作設定
+                </div>
+                <div style="width: 3.5%;" class="bg-rose-400 text-white flex items-center justify-center" title="液相安全邊界 (差14°C沸騰)">
+                  ▲
+                </div>
+                <div style="width: 10.25%;" class="bg-purple-600 text-white flex items-center justify-center" title="沸點 359°C (氣化)">
+                  359°C
+                </div>
+              </div>
+              <div class="flex justify-between text-[11px] text-slate-400 mt-1 font-mono">
+                <span>0°C</span>
+                <span>184°C(閃火)</span>
+                <span>212°C(著火)</span>
+                <span class="text-sky-600 font-bold">345°C(操作)</span>
+                <span class="text-purple-600 font-bold">359°C(沸點)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 技術結論分析: 【Find out】卡片 -->
+          <div class="bg-gradient-to-br from-indigo-900 to-sky-950 text-white rounded-2xl p-5 md:p-6 shadow-md border border-indigo-800">
+            <div class="flex items-center space-x-2 text-sky-400 text-sm font-bold uppercase tracking-wider mb-3">
+              <i class="fa-solid fa-lightbulb"></i>
+              <span>【 Find out 】技術工程核心發現</span>
+            </div>
+
+            <div class="space-y-3.5">
+              <div class="flex items-start gap-3 bg-white/5 p-3 rounded-xl border border-white/10">
+                <span class="w-6 h-6 rounded-full bg-sky-500 text-white flex items-center justify-center text-xs font-bold shrink-0">一</span>
+                <div class="text-xs sm:text-sm leading-relaxed text-slate-200">
+                  依據技術單位提供資訊，<span class="text-sky-300 font-bold underline underline-offset-4 decoration-sky-400">操作溫度設定 345°C</span>，即可完全滿足現有生產條件。
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 bg-white/5 p-3 rounded-xl border border-white/10">
+                <span class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold shrink-0">二</span>
+                <div class="text-xs sm:text-sm leading-relaxed text-slate-200">
+                  <span class="text-emerald-300 font-bold">345°C 未達熱媒(66)之沸點 (359°C)</span>，在管路系統中全程維持「液相」循環狀態，<span class="text-amber-300 font-semibold bg-amber-950/60 px-1 py-0.5 rounded">不需氮封也相較安全</span>，有效簡化管路控制並降低氣相超壓洩漏風險。
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-indigo-800/80 flex items-center justify-between text-xs text-indigo-300">
+              <span><i class="fa-solid fa-shield-halved mr-1 text-emerald-400"></i>安全特點：常壓低蒸氣壓系統</span>
+              <span class="font-mono text-indigo-200">安全係數: 正常</span>
+            </div>
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- 底部關鍵時程風險管理與備忘錄 -->
+      <section class="bg-amber-50/70 rounded-2xl border border-amber-200 p-5 md:p-6 text-amber-950">
+        <div class="flex items-center space-x-2 text-amber-800 font-bold text-sm mb-3">
+          <i class="fa-solid fa-triangle-exclamation text-amber-600 text-base"></i>
+          <span>代檢機構與行政核可關鍵注意要項 (Critical Path & Buffer)</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs leading-relaxed">
+          <div class="bg-white/80 p-3.5 rounded-xl border border-amber-200/60 shadow-2xs">
+            <span class="font-bold text-amber-900 block mb-1">① 11/10 補件改善須100%到位</span>
+            <p class="text-amber-800">代檢審核的所有改善建議必須於 11/10 全部改善完成，任何未完成項將直接遞延後續用印與發文日程。</p>
+          </div>
+          <div class="bg-white/80 p-3.5 rounded-xl border border-amber-200/60 shadow-2xs">
+            <span class="font-bold text-amber-900 block mb-1">② 11/16 正式發文始得預約工檢</span>
+            <p class="text-amber-800">南科環安完成用印發文後，方具備向代檢機構預約正式工檢時間之法定資格，不可提前口頭確認。</p>
+          </div>
+          <div class="bg-white/80 p-3.5 rounded-xl border border-amber-200/60 shadow-2xs">
+            <span class="font-bold text-amber-900 block mb-1">③ 12/11 工檢核可後 3 週取證</span>
+            <p class="text-amber-800">12/11 為預計日期，實際以代檢機構時程為主。工檢通過核可後，行政發照程序預估需時 3 週方能取得 12/31 竣工證。</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ================================= 頁面二：2026 全期程行事曆與時程天數分析 ================================= -->
+    <div id="viewCalendarPage" class="hidden space-y-6">
+
+      <!-- 頁面頂部導航與狀態摘要 -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <button onclick="switchMainPage('main')" class="text-xs text-sky-600 hover:underline font-bold flex items-center gap-1">
+              <i class="fa-solid fa-arrow-left"></i> 回主看板
+            </button>
+            <span class="text-slate-300">|</span>
+            <span class="px-2 py-0.5 rounded-md bg-sky-100 text-sky-800 text-[11px] font-bold">2026 專案時程特輯</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+            <i class="fa-solid fa-calendar-days text-sky-600"></i>
+            2026 全期程時程天數與互動月曆分析
+          </h2>
+          <p class="text-xs text-slate-500 mt-1">全案共 63 日曆天（約 44 工作天），結合 2026 年標準公務行事曆與各工項間隔天數精密檢核</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <span class="px-3 py-1.5 rounded-xl bg-rose-50 text-rose-700 font-bold border border-rose-200 flex items-center gap-1.5 shadow-2xs">
+            <i class="fa-solid fa-triangle-exclamation text-rose-500"></i>
+            <span>警惕 11/07-11/08 週末施工許可</span>
+          </span>
+          <button onclick="switchMainPage('main')" class="px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold transition flex items-center gap-1 shadow-xs">
+            <i class="fa-solid fa-chart-line mr-1"></i>返回主看板檢核
+          </button>
+        </div>
+      </div>
+
+      <!-- 四大推進階段橫條進度 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="p-3.5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-bold text-slate-700">階段一：現場整備與補件結案</span>
+            <span class="font-mono font-bold text-rose-600">11 天</span>
+          </div>
+          <div class="text-[11px] text-slate-500 font-mono">10/30 (五) ~ 11/10 (二)</div>
+          <p class="text-[11px] text-rose-600 mt-1 font-medium">★ 包含 11/07-08 週末施工與 11/10 補件100%結案</p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-bold text-slate-700">階段二：行政用印發文與調試</span>
+            <span class="font-mono font-bold text-sky-700">9 天</span>
+          </div>
+          <div class="text-[11px] text-slate-500 font-mono">11/10 (二) ~ 11/19 (四)</div>
+          <p class="text-[11px] text-amber-700 mt-1 font-medium">★ 跨越週末，公文會簽僅 3 工作天即須掛件發文</p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-bold text-slate-700">階段三：代檢機構審查與工檢</span>
+            <span class="font-mono font-bold text-indigo-700">22 天</span>
+          </div>
+          <div class="text-[11px] text-slate-500 font-mono">11/19 (四) ~ 12/11 (五)</div>
+          <p class="text-[11px] text-slate-500 mt-1">代檢官現場水壓耐壓、安全閥跳脫及設備初審</p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-bold text-slate-700">階段四：主管機關製發竣工證</span>
+            <span class="font-mono font-bold text-emerald-700">20 天 (~3週)</span>
+          </div>
+          <div class="text-[11px] text-slate-500 font-mono">12/11 (五) ~ 12/31 (四)</div>
+          <p class="text-[11px] text-emerald-600 mt-1 font-medium">★ 吻合備註②「工檢核可後，預計3週後取證」</p>
+        </div>
+      </div>
+
+      <!-- ---------------- 新增：2026 互動式專案月曆 (Interactive Project Calendar) ---------------- -->
+      <section class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 md:p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+              <i class="fa-regular fa-calendar-check text-sky-600"></i>
+              2026 年專案推展互動月曆看板
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">點擊月曆中的日期即可查看當日管制工項與注意事項，特別留意橘紅色週末標籤</p>
+          </div>
+
+          <!-- 月份切換控制按鈕組 -->
+          <div class="flex items-center bg-slate-100 p-1 rounded-xl text-xs font-bold gap-1 self-start sm:self-auto">
+            <button id="calBtnAll" onclick="filterCalendarMonth('ALL')" class="px-2.5 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition">
+              全部 (3個月)
+            </button>
+            <button id="calBtn10" onclick="filterCalendarMonth('10')" class="px-2.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition">
+              10 月 (啟動)
+            </button>
+            <button id="calBtn11" onclick="filterCalendarMonth('11')" class="px-2.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition">
+              11 月 (主工期)
+            </button>
+            <button id="calBtn12" onclick="filterCalendarMonth('12')" class="px-2.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition">
+              12 月 (工檢取證)
+            </button>
+          </div>
+        </div>
+
+        <!-- 月曆圖例說明 -->
+        <div class="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <span class="font-semibold text-slate-700"><i class="fa-solid fa-tags mr-1 text-slate-400"></i>圖例：</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-rose-500 inline-block"></span> 紅色：關鍵管制/發文/瓶頸節點</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-sky-500 inline-block"></span> 藍色：標準工程工項</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-yellow-400 inline-block border border-yellow-500"></span> 黃色：12/31 正式取得許可證</span>
+          <span class="flex items-center gap-1"><span class="px-1.5 py-0.2 rounded bg-rose-100 text-rose-700 font-bold font-mono">週末</span> 六日週末休息</span>
+        </div>
+
+        <!-- 月曆渲染容器 (支援單月或三月並列) -->
+        <div id="interactiveCalendarContainer" class="space-y-6">
+          <!-- 由 JS 動態注入 2026/10, 2026/11, 2026/12 網格月曆 -->
+        </div>
+
+        <!-- 月曆點擊當日詳情快顯面板 -->
+        <div id="calendarDayDetailBox" class="hidden mt-4 p-4 rounded-xl bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200 transition-all">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-start gap-3">
+              <span id="calBoxDot" class="w-3.5 h-3.5 rounded-full bg-rose-500 mt-1 shrink-0"></span>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span id="calBoxDate" class="text-sm font-black font-mono text-slate-900">2026/11/07 (六)</span>
+                  <span id="calBoxBadge" class="text-[11px] px-2 py-0.5 rounded font-bold bg-rose-100 text-rose-700">週末施工注意</span>
+                </div>
+                <h4 id="calBoxTitle" class="text-base font-bold text-sky-900 mt-0.5">量測開口 (超音波開口施工完成)</h4>
+                <p id="calBoxDesc" class="text-xs text-slate-700 mt-1 leading-relaxed">--</p>
+                <div id="calBoxNotice" class="text-xs text-rose-700 font-semibold mt-1">--</div>
+              </div>
+            </div>
+            <div class="flex flex-col items-end gap-1 shrink-0">
+              <button onclick="closeCalDayBox()" class="text-slate-400 hover:text-slate-600 text-xs px-2 py-1">
+                <i class="fa-solid fa-xmark"></i> 關閉
+              </button>
+              <button id="calBoxGoBtn" onclick="jumpToMainNodeFromCalendar(3)" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs transition shadow-2xs">
+                看主看板詳細 &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13 節點間隔天數與日曆明細橫向滾動表 -->
+      <section class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 md:p-6 space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+          <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+            <i class="fa-solid fa-table-list text-sky-600"></i>
+            13 大管制節點間隔天數與 2026 行事曆注意要點一覽表
+          </h3>
+          <span class="text-xs text-slate-500">點擊任一行可快速切換至該節點</span>
+        </div>
+
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left text-xs min-w-[700px]">
+            <thead class="bg-slate-100 text-slate-700 font-semibold">
+              <tr>
+                <th class="py-2.5 px-3">#</th>
+                <th class="py-2.5 px-3">節點名稱</th>
+                <th class="py-2.5 px-3">2026 日期 (星期)</th>
+                <th class="py-2.5 px-3 text-center">間隔天數</th>
+                <th class="py-2.5 px-3 text-center">累計天數</th>
+                <th class="py-2.5 px-3">權責單位</th>
+                <th class="py-2.5 px-3">2026 行事曆注意要點與施工特性</th>
+              </tr>
+            </thead>
+            <tbody id="scheduleBreakdownTbody" class="divide-y divide-slate-100">
+              <!-- 由 JS 動態注入 13 個節點的間隔天數與星期分析 -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ================================= 頁面三：專案全貌總覽戰情室 ================================= -->
+    <div id="viewOverviewPage" class="hidden space-y-6 animate-fadeIn">
+      
+      <!-- 戰情頂部導航與總覽統計卡 -->
+      <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-sky-950 text-white rounded-3xl p-6 shadow-xl border border-indigo-900 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300 border border-indigo-400/40 text-xs font-bold flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              專案全貌戰情室 (Project War Room)
+            </span>
+            <span class="text-xs text-slate-400">| 全期程 63 天 • 13 個里程碑 • 4 大權責體系</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2.5">
+            <i class="fa-solid fa-compass-drafting text-sky-400"></i>
+            南科鍋爐竣工許可 • 專案工程全景總覽
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-3xl leading-relaxed">
+            整合工程實施、行政審查、法定代檢與驗收發照全流程，掌握關鍵路徑瓶頸與防護對策，確保 2026/12/31 如期如質取得正式竣工證。
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button onclick="copyStatusReport()" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs shadow-md shadow-sky-600/30 transition flex items-center gap-2">
+            <i class="fa-solid fa-clipboard-check"></i>
+            <span>複製晨會報告</span>
+          </button>
+          <button onclick="switchMainPage('main')" class="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>回主看板</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 動態時間模擬推移器 (Timeline Progress Simulator) -->
+      <section class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 md:p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+              <i class="fa-solid fa-sliders text-sky-600"></i>
+              2026 工程進度模擬推移器 (Interactive Progress Simulator)
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">滑動拉桿可模擬推移至特定日期，即時檢視該時間點的工程完成度、在辦事項與風險預警</p>
+          </div>
+          <div class="flex items-center gap-2 text-xs">
+            <button onclick="setSimulatePreset(0)" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition">起步 10/30</button>
+            <button onclick="setSimulatePreset(11)" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition">補件 11/10</button>
+            <button onclick="setSimulatePreset(17)" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition">發文 11/16</button>
+            <button onclick="setSimulatePreset(42)" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition">工檢 12/11</button>
+            <button onclick="setSimulatePreset(62)" class="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold border border-emerald-200 transition">取證 12/31</button>
+          </div>
+        </div>
+
+        <!-- 模擬滑桿與指標 -->
+        <div class="space-y-3 pt-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-500">模擬日期：<strong id="simCurrentDateDisplay" class="font-mono text-sm text-sky-700 font-black">2026/10/30 (五)</strong></span>
+            <span class="text-slate-500">推展進度：<strong id="simPercentDisplay" class="font-mono text-sm text-slate-900 font-black">0%</strong> (全期 63 天之第 <span id="simDayIndexDisplay" class="font-mono text-sky-700 font-bold">1</span> 天)</span>
+            <span class="text-slate-500">距竣工取證剩餘：<strong id="simDaysRemainingDisplay" class="font-mono text-sm text-rose-600 font-black">62 天</strong></span>
+          </div>
+
+          <input type="range" id="timelineSimulatorSlider" min="0" max="62" value="0" step="1" oninput="onSimulatorSliderChange(this.value)" class="w-full accent-sky-600 h-2 bg-slate-200 rounded-lg cursor-pointer">
+
+          <div class="flex justify-between text-[11px] text-slate-400 font-mono">
+            <span>10/30 (啟動)</span>
+            <span>11/10 (補件結案)</span>
+            <span>11/16 (用印發文)</span>
+            <span>12/11 (工檢核可)</span>
+            <span class="text-emerald-600 font-bold">12/31 (取得許可證)</span>
+          </div>
+        </div>
+
+        <!-- 模擬動態回饋卡 -->
+        <div id="simFeedbackCard" class="mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <!-- JS 動態更新內容 -->
+        </div>
+      </section>
+
+      <!-- 全案四大推進階段結構化全景 (Stage Pipeline) -->
+      <section class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 md:p-6 space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+          <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+            <i class="fa-solid fa-diagram-project text-indigo-600"></i>
+            工程推動四大階段生命週期全貌 (Stage Pipeline Breakdown)
+          </h3>
+          <span class="text-xs text-slate-500">從工程整備至法規發照的銜接關係</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <!-- 階段 1 -->
+          <div class="p-4 rounded-2xl bg-gradient-to-b from-rose-50/60 to-white border border-rose-200 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded-md bg-rose-100 text-rose-700 text-[10px] font-bold font-mono">STAGE 01</span>
+              <span class="text-xs font-mono font-bold text-rose-600">11 天 (17%)</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">現場整備與缺失結案</h4>
+            <div class="text-[11px] text-slate-500 font-mono">10/30 (五) ~ 11/10 (二)</div>
+            <ul class="text-xs text-slate-600 space-y-1 list-disc list-inside">
+              <li>10/30 前置MRO採購下單</li>
+              <li>11/04 機構現勘提缺失</li>
+              <li>11/07 超音波開口 (⚠️週六)</li>
+              <li>11/08 逃生開口 (⚠️週日)</li>
+              <li>11/09 閥體與泵浦計算審定</li>
+              <li><strong class="text-rose-600">11/10 代檢建議100%改善</strong></li>
+            </ul>
+            <div class="pt-2 border-t border-rose-100 text-[11px] text-rose-700 font-semibold">
+              🎯 核心門檻：100%結案方能進入公文
+            </div>
+          </div>
+
+          <!-- 階段 2 -->
+          <div class="p-4 rounded-2xl bg-gradient-to-b from-sky-50/60 to-white border border-sky-200 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded-md bg-sky-100 text-sky-700 text-[10px] font-bold font-mono">STAGE 02</span>
+              <span class="text-xs font-mono font-bold text-sky-700">9 天 (14%)</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">行政用印發文與調試</h4>
+            <div class="text-[11px] text-slate-500 font-mono">11/10 (二) ~ 11/19 (四)</div>
+            <ul class="text-xs text-slate-600 space-y-1 list-disc list-inside">
+              <li>11/11 內部公文簽核起簽</li>
+              <li>11/13 換油完成 (冷態循環)</li>
+              <li><strong class="text-rose-600">11/16 正式發文 (取得字號)</strong></li>
+              <li>11/18 差壓連動加熱器斷開</li>
+              <li>11/19 代檢機構收件受理</li>
+            </ul>
+            <div class="pt-2 border-t border-sky-100 text-[11px] text-sky-700 font-semibold">
+              🎯 核心門檻：取文字號方得預約工檢
+            </div>
+          </div>
+
+          <!-- 階段 3 -->
+          <div class="p-4 rounded-2xl bg-gradient-to-b from-indigo-50/60 to-white border border-indigo-200 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-700 text-[10px] font-bold font-mono">STAGE 03</span>
+              <span class="text-xs font-mono font-bold text-indigo-700">22 天 (35%)</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">代檢機構審查與工檢</h4>
+            <div class="text-[11px] text-slate-500 font-mono">11/19 (四) ~ 12/11 (五)</div>
+            <ul class="text-xs text-slate-600 space-y-1 list-disc list-inside">
+              <li>代檢書件形式審查</li>
+              <li>排定主檢稽核官出勤日</li>
+              <li>本體耐壓試驗 22.5 kg/cm²</li>
+              <li>安全閥初噴/停噴現場跳脫</li>
+              <li><strong class="text-rose-600">12/11 工檢通過初驗核可</strong></li>
+            </ul>
+            <div class="pt-2 border-t border-indigo-100 text-[11px] text-indigo-700 font-semibold">
+              🎯 核心門檻：現場各項測試一次到位
+            </div>
+          </div>
+
+          <!-- 階段 4 -->
+          <div class="p-4 rounded-2xl bg-gradient-to-b from-emerald-50/60 to-white border border-emerald-200 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700 text-[10px] font-bold font-mono">STAGE 04</span>
+              <span class="text-xs font-mono font-bold text-emerald-700">20 天 (~3週)</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">主管機關審定與製發證照</h4>
+            <div class="text-[11px] text-slate-500 font-mono">12/11 (五) ~ 12/31 (四)</div>
+            <ul class="text-xs text-slate-600 space-y-1 list-disc list-inside">
+              <li>代檢合格報告提報主管機關</li>
+              <li>行政製發特種設備竣工證</li>
+              <li>合規備查聯歸檔列管</li>
+              <li>移交日常巡檢維護 SOP</li>
+              <li><strong class="text-emerald-600">12/31 正式取得竣工許可證</strong></li>
+            </ul>
+            <div class="pt-2 border-t border-emerald-100 text-[11px] text-emerald-700 font-semibold">
+              🎯 終極成果：合法啟用生產運轉
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RACI 權責分工矩陣與交付物總覽 (RACI Matrix) -->
+      <section class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 md:p-6 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-100">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+              <i class="fa-solid fa-users-gear text-sky-600"></i>
+              跨單位 RACI 權責劃分與法規交付產出總表
+            </h3>
+            <p class="text-xs text-slate-500">R: 執行 (Responsible) | A: 最終當責 (Accountable) | C: 諮詢 (Consulted) | I: 知會 (Informed)</p>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono self-start sm:self-auto">5 大參與角色 • 完整對應</span>
+        </div>
+
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left text-xs min-w-[760px]">
+            <thead class="bg-slate-100 text-slate-700 font-semibold">
+              <tr>
+                <th class="py-2.5 px-3">日期</th>
+                <th class="py-2.5 px-3">管制節點項目</th>
+                <th class="py-2.5 px-3 text-center">設備單位</th>
+                <th class="py-2.5 px-3 text-center">南科廠務</th>
+                <th class="py-2.5 px-3 text-center">廠務本部</th>
+                <th class="py-2.5 px-3 text-center">南科環安</th>
+                <th class="py-2.5 px-3 text-center">代檢機構</th>
+                <th class="py-2.5 px-3">法定核心交付物 (Deliverable)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-slate-700">
+              <tr class="hover:bg-slate-50">
+                <td class="py-2.5 px-3 font-mono font-bold text-slate-900">10/30</td>
+                <td class="py-2.5 px-3 font-bold text-rose-600">① 前置作業 (MRO下單)</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-rose-100 text-rose-700 font-bold">R / A</span></td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">C</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">C</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">-</td>
+                <td class="py-2.5 px-3 text-sky-700 font-medium">MRO 採購立案單、7大工項採購合約</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-2.5 px-3 font-mono">11/04</td>
+                <td class="py-2.5 px-3 font-bold">② 機構現場現勘</td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-700">R</td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-700">R</td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-700">R</td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-700">R</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 font-bold">A</span></td>
+                <td class="py-2.5 px-3">現勘意見備忘錄、缺失改善指引表</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-2.5 px-3 font-mono">11/07</td>
+                <td class="py-2.5 px-3 font-bold">③ 超音波量測開口 (週六)</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-sky-100 text-sky-700 font-bold">R / A</span></td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">-</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">C</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">-</td>
+                <td class="py-2.5 px-3">超音波檢測口竣工驗收報告</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-2.5 px-3 font-mono">11/08</td>
+                <td class="py-2.5 px-3 font-bold">④ 逃生安全通道開口 (週日)</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">C</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-sky-100 text-sky-700 font-bold">R / A</span></td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">-</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">C</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">-</td>
+                <td class="py-2.5 px-3">安全通道巡檢簽認表、動線標線圖</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-2.5 px-3 font-mono">11/09</td>
+                <td class="py-2.5 px-3 font-bold">⑤ 閥/泵工程計算審定</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">C</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">C</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-sky-100 text-sky-700 font-bold">R / A</span></td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">-</td>
+                <td class="py-2.5 px-3">安全閥排放量計算書、循環泵揚程簽證書</td>
+              </tr>
+              <tr class="hover:bg-slate-50 bg-rose-50/30">
+                <td class="py-2.5 px-3 font-mono font-bold text-rose-600">11/10</td>
+                <td class="py-2.5 px-3 font-bold text-rose-600">⑥ 代檢建議補件100%結案</td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-700">R</td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-700">R</td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-700">R</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-rose-500 text-white font-bold">A</span></td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 font-bold text-rose-700">代檢改善對策報告 (全數結案簽核聯)</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-2.5 px-3 font-mono">11/11</td>
+                <td class="py-2.5 px-3 font-bold">⑦ 內部公文簽核用印申請</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">C</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-sky-100 text-sky-700 font-bold">R / A</span></td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">-</td>
+                <td class="py-2.5 px-3">內部法定公文呈核表單、印鑑用印序號</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-2.5 px-3 font-mono">11/13</td>
+                <td class="py-2.5 px-3 font-bold">⑧ THERMINOL 66換油完成</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-sky-100 text-sky-700 font-bold">R / A</span></td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">-</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">-</td>
+                <td class="py-2.5 px-3">熱媒油出廠 COA 品質檢驗單、注油驗收單</td>
+              </tr>
+              <tr class="hover:bg-slate-50 bg-rose-50/30">
+                <td class="py-2.5 px-3 font-mono font-bold text-rose-600">11/16</td>
+                <td class="py-2.5 px-3 font-bold text-rose-600">⑨ 正式發文主管機關 (取字號)</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-rose-500 text-white font-bold">R / A</span></td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-indigo-700">I (受文)</td>
+                <td class="py-2.5 px-3 font-bold text-rose-700">官方正式發文函件、代檢預約登記編號</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-2.5 px-3 font-mono">11/18</td>
+                <td class="py-2.5 px-3 font-bold">⑩ 差壓開關警報斷開連動測試</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-sky-100 text-sky-700 font-bold">R / A</span></td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">C</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">-</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">-</td>
+                <td class="py-2.5 px-3">Interlock 加熱器斷開連動實測報告</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="py-2.5 px-3 font-mono">11/19</td>
+                <td class="py-2.5 px-3 font-bold">⑪ 代檢機構正式立案收件</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-sky-100 text-sky-700 font-bold">R / A</span></td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-indigo-700">A (受理)</td>
+                <td class="py-2.5 px-3">代檢機構立案掛件受理單、出勤通知</td>
+              </tr>
+              <tr class="hover:bg-slate-50 bg-rose-50/30">
+                <td class="py-2.5 px-3 font-mono font-bold text-rose-600">12/11</td>
+                <td class="py-2.5 px-3 font-bold text-rose-600">⑫ 代檢機構現場工檢核可</td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-700">R</td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-700">R</td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-700">R</td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-700">R</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-rose-500 text-white font-bold">A</span></td>
+                <td class="py-2.5 px-3 font-bold text-rose-700">現場工檢初驗核可紀錄表、稽核簽認單</td>
+              </tr>
+              <tr class="hover:bg-slate-50 bg-yellow-50/40">
+                <td class="py-2.5 px-3 font-mono font-bold text-amber-600">12/31</td>
+                <td class="py-2.5 px-3 font-bold text-amber-700">⑬ 正式取得竣工檢查合格證</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center font-mono text-slate-400">I</td>
+                <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-emerald-600 text-white font-bold">A</span></td>
+                <td class="py-2.5 px-3 text-center font-mono font-bold text-indigo-700">A (核發)</td>
+                <td class="py-2.5 px-3 font-bold text-emerald-700">★ 特種設備竣工檢查合格證 (實體證書)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 關鍵路徑四大瓶頸風險評估與應變對策矩陣 (Risk & Contingency Heatmap) -->
+      <section class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 md:p-6 space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+          <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+            <i class="fa-solid fa-triangle-exclamation text-rose-500"></i>
+            關鍵路徑瓶頸風險防護與應變對策 (Critical Path Contingency)
+          </h3>
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 font-bold">4 大重大風險節點</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 風險 1 -->
+          <div class="p-4 rounded-xl border border-rose-200 bg-rose-50/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-rose-500 text-white text-[11px] font-bold font-mono">RISK 01</span>
+              <span class="text-xs text-rose-600 font-bold">11/07 ~ 11/08 (六/日)</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">週末施工與現場進出許可限制</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              超音波開口（11/07 週六）與逃生安全通道驗收（11/08 週日）適逢 2026 週末，若外包工班未提前完成假日工安申請將無法動工。
+            </p>
+            <div class="p-2.5 rounded-lg bg-white border border-rose-200 text-xs space-y-1">
+              <span class="font-bold text-rose-800 block"><i class="fa-solid fa-shield mr-1"></i>應變防護措施：</span>
+              <p class="text-slate-700">設備與南科廠務須於 11/05 (四) 前完成假日入廠施工工安簽核，並排定值班工程師現場監督。</p>
+            </div>
+          </div>
+
+          <!-- 風險 2 -->
+          <div class="p-4 rounded-xl border border-rose-200 bg-rose-50/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-rose-500 text-white text-[11px] font-bold font-mono">RISK 02</span>
+              <span class="text-xs text-rose-600 font-bold">11/10 (二)</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">代檢改善建議未 100% 結案無法送件</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              11/04 現勘後僅有 4 個工作天改善期，任何未完成項將直接卡死 11/11 用印程序，導致後續全數遞延。
+            </p>
+            <div class="p-2.5 rounded-lg bg-white border border-rose-200 text-xs space-y-1">
+              <span class="font-bold text-rose-800 block"><i class="fa-solid fa-shield mr-1"></i>應變防護措施：</span>
+              <p class="text-slate-700">11/04 現勘當日即列出缺失對策單，每日召開 15 分鐘站立會逐項點名銷案，不留尾款到最後一天。</p>
+            </div>
+          </div>
+
+          <!-- 風險 3 -->
+          <div class="p-4 rounded-xl border border-rose-200 bg-rose-50/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-rose-500 text-white text-[11px] font-bold font-mono">RISK 03</span>
+              <span class="text-xs text-rose-600 font-bold">11/16 (一)</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">行政會簽遇週末，僅 3 個工作天須取得發文字號</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              11/11 (三) 送簽至 11/16 (一) 發文，跨越週末。若無字號將無法向代檢機構登記預約排程。
+            </p>
+            <div class="p-2.5 rounded-lg bg-white border border-rose-200 text-xs space-y-1">
+              <span class="font-bold text-rose-800 block"><i class="fa-solid fa-shield mr-1"></i>應變防護措施：</span>
+              <p class="text-slate-700">南科環安提前於 11/09 備妥公文簽核底稿，11/10 結案當晚送件，啟動內部「速件」綠色通道。</p>
+            </div>
+          </div>
+
+          <!-- 風險 4 -->
+          <div class="p-4 rounded-xl border border-rose-200 bg-rose-50/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-rose-500 text-white text-[11px] font-bold font-mono">RISK 04</span>
+              <span class="text-xs text-rose-600 font-bold">12/11 (五)</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">工檢核可日須依代檢機構時間為主之不確定性</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              12/11 為預計日期，若代檢稽核官出勤檔期衝突延後，將直接吃掉後續 3 週製證之取證緩衝空間。
+            </p>
+            <div class="p-2.5 rounded-lg bg-white border border-rose-200 text-xs space-y-1">
+              <span class="font-bold text-rose-800 block"><i class="fa-solid fa-shield mr-1"></i>應變防護措施：</span>
+              <p class="text-slate-700">11/16 一取得發文字號當日立即致電主稽核官確認 12/11（或 12/07~12/11 該週）之固態排程。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- 頁尾 -->
+  <footer class="bg-white border-t border-slate-200 mt-8 py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+      <div>
+        <span>南科 鍋爐竣工許可計畫期程 • Cyntec A Delta Group Company</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span>頁碼索引: Page 3</span>
+        <span>•</span>
+        <span>狀態: 進行中 (工程管控看板)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ---------------- 電腦/平板端滑鼠懸停豐富資訊卡 (Rich Hover Tooltip) ---------------- -->
+  <div id="hoverPreviewTooltip" class="hidden md:block">
+    <div class="tooltip-inner w-76 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl shadow-2xl p-3.5 text-xs text-slate-700 space-y-2 relative overflow-hidden">
+      <!-- 懸停倒數進度條 (預設 5 秒) -->
+      <div id="hoverTimerBar" class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-500 to-emerald-500 transition-all"></div>
+
+      <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+        <div class="flex items-center gap-1.5">
+          <span id="ttBadge" class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+          <span id="ttDate" class="font-mono font-black text-slate-900 text-sm">10/30</span>
+          <span id="ttWeekday" class="text-[11px] font-bold text-slate-500">(五)</span>
+          <span id="ttTitle" class="font-bold text-slate-900 text-xs ml-1">前置作業</span>
+        </div>
+        <span id="ttDept" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-semibold text-[10px]">設備</span>
+      </div>
+
+      <div class="space-y-1.5 text-[11px] leading-snug">
+        <div class="flex justify-between items-center bg-slate-50 p-1.5 rounded-lg border border-slate-100">
+          <span class="text-slate-500">距上一步工期：<strong id="ttIntervalDays" class="text-sky-700 font-mono">5 天</strong></span>
+          <span class="text-slate-500">全期累計：<strong id="ttCumulativeDays" class="text-slate-900 font-mono">第 1 天</strong></span>
+        </div>
+        <div>
+          <span class="text-slate-400 font-medium">前置依賴：</span>
+          <span id="ttPreReq" class="text-slate-700 font-semibold">無 (啟動點)</span>
+        </div>
+        <div>
+          <span class="text-slate-400 font-medium">交付產出：</span>
+          <span id="ttDeliverable" class="text-sky-700 font-semibold">MRO 採購單核定</span>
+        </div>
+        <div>
+          <span class="text-slate-400 font-medium">時程指標：</span>
+          <span id="ttLeadTime" class="text-amber-700 font-medium">距取證 62 天</span>
+        </div>
+      </div>
+
+      <div class="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-medium">
+        <span><i class="fa-solid fa-arrow-pointer mr-1 text-sky-500"></i>點擊鎖定詳細面板</span>
+        <span id="ttTimerRemaining" class="font-mono text-slate-400">5.0s</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------------- 懸停時間自訂設定 Modal (Hover Settings Modal) ---------------- -->
+  <div id="hoverSettingsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-200 p-5 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <span class="w-8 h-8 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-stopwatch"></i>
+          </span>
+          <h3 class="font-bold text-slate-900 text-sm">自訂滑鼠懸停 (Hover) 時間參數</h3>
+        </div>
+        <button onclick="closeHoverSettingsModal()" class="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center text-xs">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <!-- 參數 1: 滑鼠停留多久才觸發 (Hover Delay) -->
+        <div class="space-y-1.5">
+          <div class="flex justify-between font-bold text-slate-800">
+            <span>滑鼠需停留時間 (延遲觸發):</span>
+            <span id="displayHoverDelay" class="font-mono text-sky-600">300 ms</span>
+          </div>
+          <input type="range" id="inputHoverDelay" min="50" max="1500" step="50" value="300" oninput="updateHoverSettingInputs()" class="w-full accent-sky-600">
+          <p class="text-[11px] text-slate-400">避免滑鼠快速滑過時頻繁彈出乾擾，數值越大越穩定。</p>
+        </div>
+
+        <!-- 參數 2: 懸停資訊顯示停留時間 (Auto-Dismiss Timeout) -->
+        <div class="space-y-1.5">
+          <div class="flex justify-between font-bold text-slate-800">
+            <span>自動關閉時間 (預設 5 秒):</span>
+            <span id="displayHoverDismiss" class="font-mono text-rose-600">5.0 秒</span>
+          </div>
+          <input type="range" id="inputHoverDismiss" min="1" max="15" step="0.5" value="5.0" oninput="updateHoverSettingInputs()" class="w-full accent-rose-600">
+          <p class="text-[11px] text-slate-400">懸停資訊顯示達此時間後自動隱藏，同一個節點內移動不會重複彈出。</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+        <button onclick="resetHoverSettings()" class="text-xs text-slate-400 hover:text-slate-600 underline">
+          恢復預設值 (0.3s / 5s)
+        </button>
+        <button onclick="saveHoverSettings()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-xs transition">
+          套用設定
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------------- 手機端滑出式詳細資訊抽屜 (Mobile Bottom Sheet Modal) ---------------- -->
+  <div id="mobileSheetModal" class="fixed inset-0 z-50 pointer-events-none flex flex-col justify-end">
+    <!-- 半透明背景遮罩 -->
+    <div id="mobileSheetBackdrop" onclick="closeMobileSheet()" class="absolute inset-0 bg-slate-900/60 backdrop-blur-xs opacity-0 transition-opacity"></div>
+    
+    <!-- 滑動抽屜本體 -->
+    <div id="mobileDetailSheet" class="relative z-10 w-full max-h-[82vh] bg-white rounded-t-3xl shadow-2xl p-5 border-t border-slate-200 overflow-y-auto transform translate-y-full transition-transform">
+      <!-- 頂部拖曳指示把手 -->
+      <div class="w-12 h-1.5 bg-slate-300 rounded-full mx-auto mb-3 cursor-grab"></div>
+
+      <!-- 標題與關閉按鈕 -->
+      <div class="flex items-start justify-between gap-3 pb-3 border-b border-slate-100">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span id="mSheetBadge" class="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-rose-100 text-rose-700">關鍵管制</span>
+            <span id="mSheetDate" class="text-lg font-black font-mono text-slate-900">10/30</span>
+            <span id="mSheetOwner" class="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-semibold">主責: 設備</span>
+          </div>
+          <h3 id="mSheetTitle" class="text-lg font-bold text-slate-900">前置作業 (7大核心工項整備)</h3>
+        </div>
+        <button onclick="closeMobileSheet()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center shrink-0 text-sm">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- 詳細內容 -->
+      <div class="mt-4 space-y-3.5 text-xs">
+        <div>
+          <h4 class="font-bold text-slate-700 mb-1 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-info text-sky-500"></i>節點管制重點要求
+          </h4>
+          <p id="mSheetDesc" class="text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+            --
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-700 mb-1 flex items-center gap-1.5">
+            <i class="fa-solid fa-triangle-exclamation text-amber-500"></i>工程執行要項 / 審核要點
+          </h4>
+          <div id="mSheetExtra" class="text-amber-800 bg-amber-50 p-3 rounded-xl border border-amber-200 leading-normal">
+            --
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+            <span class="text-slate-400 font-medium block text-[11px]">前置依賴條件</span>
+            <span id="mSheetPreReq" class="font-semibold text-slate-800 mt-0.5 block">--</span>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+            <span class="text-slate-400 font-medium block text-[11px]">核心交付成果物</span>
+            <span id="mSheetDeliverable" class="font-semibold text-sky-700 mt-0.5 block">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部關閉按鈕 -->
+      <div class="mt-5 pt-3 border-t border-slate-100">
+        <button onclick="closeMobileSheet()" class="w-full py-2.5 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition shadow-sm">
+          關閉檢視
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 提示浮動 Toast 通知 (取代不推薦之 alert) -->
+  <div id="toastMessage" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center space-x-2.5 transition-all opacity-0 pointer-events-none translate-y-3">
+    <i class="fa-solid fa-bell text-sky-400"></i>
+    <span id="toastText">訊息通知</span>
+  </div>
+
+  <!-- JavaScript 核心資料驅動與互動邏輯 -->
+  <script>
+    // 專案 13 個節點完整資料定義 (包含 2026 年星期、間隔天數與行事曆分析)
+    const projectMilestones = [
+      {
+        id: 1,
+        date: "10/30",
+        weekday: "五",
+        yearDate: "2026/10/30",
+        intervalDays: 0,
+        cumulativeDays: 1,
+        title: "前置作業",
+        dept: "設備",
+        type: "red",
+        note: "須完成 MRO 及下單",
+        detail: "設備單位須於 10/30 前全面完成 MRO 採購程序及正式下單，包含換油、安全閥安裝、超音波開口、差壓聯動與耐壓測試等 7 大工項。",
+        actionRequired: "MRO 採購已達標；7 大整備項目開展驗收。",
+        preReq: "無 (全案工程啟動基準點)",
+        deliverable: "MRO 採購立案單、7大工項採購合約",
+        leadTime: "專案啟動日 (距取證 62 天)",
+        calendarNotice: "週五下班前必須確認採購單核准，避免跨週末卡單"
+      },
+      {
+        id: 2,
+        date: "11/04",
+        weekday: "三",
+        yearDate: "2026/11/04",
+        intervalDays: 5,
+        cumulativeDays: 6,
+        title: "機構現勘",
+        dept: "All",
+        type: "blue",
+        note: "專業機構現場現勘",
+        detail: "全體單位陪同專業代檢機構進行現場動線、安全閥配管位置與循環泵配置之現勘評估。",
+        actionRequired: "全體單位 (設備、廠務、環安) 共同參與記錄審查意見。",
+        preReq: "10/30 前置委外下單完成且廠商排程確立",
+        deliverable: "代檢機構現場現勘意見備忘錄與缺失清單",
+        leadTime: "啟動後第 6 天",
+        calendarNotice: "扣除 10/31-11/1 週末，實際僅 3 個工作天準備現勘"
+      },
+      {
+        id: 3,
+        date: "11/07",
+        weekday: "六",
+        yearDate: "2026/11/07",
+        intervalDays: 3,
+        cumulativeDays: 9,
+        title: "量測開口",
+        dept: "設備",
+        type: "blue",
+        note: "超音波開口施工完成",
+        detail: "鍋爐超音波流量與厚度檢測專用開口施工到位，以利後續法定無損檢測。",
+        actionRequired: "設備單位檢核開口尺寸與防護罩封閉性。",
+        preReq: "11/04 現勘確認開口位置與管徑大小",
+        deliverable: "超音波檢測口施工驗收紀錄單",
+        leadTime: "距補件截止剩餘 3 天",
+        calendarNotice: "⚠️ 2026 週六！須預先申請委外假日施工與出入許可"
+      },
+      {
+        id: 4,
+        date: "11/08",
+        weekday: "日",
+        yearDate: "2026/11/08",
+        intervalDays: 1,
+        cumulativeDays: 10,
+        title: "逃生開口",
+        dept: "南科廠務",
+        type: "blue",
+        note: "逃生安全通道與開口",
+        detail: "南科廠務確認鍋爐房內部逃生通道、安全出口與開口防護符合勞工安全法規標準。",
+        actionRequired: "逃生動線標示完整、無堆置雜物阻礙。",
+        preReq: "鍋爐房土建與空間安全逃生通道評估",
+        deliverable: "安全通道巡查合格簽認表",
+        leadTime: "距補件截止剩餘 2 天",
+        calendarNotice: "⚠️ 2026 週日！廠務需安排假日值班巡查確認動線"
+      },
+      {
+        id: 5,
+        date: "11/09",
+        weekday: "一",
+        yearDate: "2026/11/09",
+        intervalDays: 1,
+        cumulativeDays: 11,
+        title: "閥/泵檢核",
+        dept: "廠務本部",
+        type: "blue",
+        note: "閥體規格與泵浦計算審定",
+        detail: "廠務本部會同專家對熱媒循環泵揚程計算書及相關閥體額定耐溫壓進行全面技術校核。",
+        actionRequired: "出具工程安全計算簽署核可表。",
+        preReq: "取得循環泵及安全閥廠商出廠規格報告",
+        deliverable: "循環泵揚程與安全閥排量計算簽證書",
+        leadTime: "距補件截止剩餘 1 天",
+        calendarNotice: "週一上午即需完成簽定，前置書件須於上週備妥"
+      },
+      {
+        id: 6,
+        date: "11/10",
+        weekday: "二",
+        yearDate: "2026/11/10",
+        intervalDays: 1,
+        cumulativeDays: 12,
+        title: "補件彙整",
+        dept: "南科環安",
+        type: "red",
+        note: "代檢審核建議須全部改善完成",
+        detail: "代檢機構於現勘中提出之改善建議，各單位必須在此日前全數落實改善並完成資料彙整。",
+        actionRequired: "重大瓶頸：審核建議需 100% 結案，否則無法送件用印。",
+        preReq: "11/04 現勘後所有缺失改善措施 100% 閉環",
+        deliverable: "代檢改善對策報告書 (全數簽核結案)",
+        leadTime: "⚠️ 重大瓶頸節點 (關鍵路徑)",
+        calendarNotice: "現勘後僅 4 個工作天完成 100% 缺失改善，極度緊迫"
+      },
+      {
+        id: 7,
+        date: "11/11",
+        weekday: "三",
+        yearDate: "2026/11/11",
+        intervalDays: 1,
+        cumulativeDays: 13,
+        title: "用印申請",
+        dept: "南科環安",
+        type: "blue",
+        note: "內部法定文件簽核",
+        detail: "彙整完整竣工報驗文件，呈送南科內部法定公文及相關印鑑用印程序申請。",
+        actionRequired: "確保工程圖面、計算書與合格證齊全送審。",
+        preReq: "11/10 補件改善確認結案、書件備齊",
+        deliverable: "內部法定公文簽核單及用印申請序號",
+        leadTime: "預估簽核期程 5 個日曆天",
+        calendarNotice: "正式公文起簽，啟動內部主管快速會簽管道"
+      },
+      {
+        id: 8,
+        date: "11/13",
+        weekday: "五",
+        yearDate: "2026/11/13",
+        intervalDays: 2,
+        cumulativeDays: 15,
+        title: "換油完成",
+        dept: "設備",
+        type: "blue",
+        note: "THERMINOL 66 充填完畢",
+        detail: "完成既有管線排空與清潔，新購 THERMINOL 66 熱媒油注油完畢，啟動冷態預循環。",
+        actionRequired: "檢測油質與無水殘留驗收。",
+        preReq: "管線密閉測試與清潔吹洗完畢",
+        deliverable: "熱媒油品出廠檢驗 COA 及注油驗收單",
+        leadTime: "具備後續警報與加溫測試條件",
+        calendarNotice: "週五完成換油，為下週警報測試建立介質基礎"
+      },
+      {
+        id: 9,
+        date: "11/16",
+        weekday: "一",
+        yearDate: "2026/11/16",
+        intervalDays: 3,
+        cumulativeDays: 18,
+        title: "用印發文",
+        dept: "南科環安",
+        type: "red",
+        note: "正式發文，始得預約工檢時間",
+        detail: "完成正式公文發函主管機關及代檢單位。唯有取得正式發文字號，方具備向代檢單位預約正式工檢現場排程之資格。",
+        actionRequired: "取得正式公文發文字號，致電代檢窗口預排。",
+        preReq: "內部用印審批完成，正式掛發公文",
+        deliverable: "官方發文函件與正式發文字號 (如發文備查聯)",
+        leadTime: "⚠️ 工檢預約門檻 (關鍵路徑)",
+        calendarNotice: "⚠️ 跨越週末，實際會簽僅 3 個工作天即須取文字號"
+      },
+      {
+        id: 10,
+        date: "11/18",
+        weekday: "三",
+        yearDate: "2026/11/18",
+        intervalDays: 2,
+        cumulativeDays: 20,
+        title: "警報測試",
+        dept: "設備",
+        type: "blue",
+        note: "差壓/高低溫連動斷開測試",
+        detail: "差壓開關異常模擬測試，確認一旦斷流可於指定秒數內確實連動關斷加熱器電源，防止油溫過熱。",
+        actionRequired: "作成 Interlock 連動測試報告並簽名備查。",
+        preReq: "11/13 換油完畢且控制迴路通電正常",
+        deliverable: "加熱器差壓保護 Interlock 實測驗證紀錄表",
+        leadTime: "距代檢收件受理剩 1 天",
+        calendarNotice: "平行於行政公文進度，現場完成安全互鎖實測"
+      },
+      {
+        id: 11,
+        date: "11/19",
+        weekday: "四",
+        yearDate: "2026/11/19",
+        intervalDays: 1,
+        cumulativeDays: 21,
+        title: "代檢收件",
+        dept: "廠務本部",
+        type: "blue",
+        note: "代檢機構完成正式受理",
+        detail: "代檢機構審查竣工書件無誤，正式立案收件並排定工檢稽核官出勤時程。",
+        actionRequired: "追蹤掛件編號與主稽核官聯繫方式。",
+        preReq: "11/16 申請公文送達並附完整計算審查資料",
+        deliverable: "代檢機構立案掛件受理編號與排檢通知書",
+        leadTime: "距預計工檢核可約 22 天",
+        calendarNotice: "發文後第 3 天代檢立案，正式進入法定代檢審查排程"
+      },
+      {
+        id: 12,
+        date: "12/11",
+        weekday: "五",
+        yearDate: "2026/12/11",
+        intervalDays: 22,
+        cumulativeDays: 43,
+        title: "工檢核可",
+        dept: "All",
+        type: "red",
+        note: "此為預計日期，以代檢機構為主",
+        detail: "代檢官抵達現場實施耐壓驗證、安全閥噴跳與實體驗收審查。核可後即進入證照產製期程（約需 3 週）。",
+        actionRequired: "各權責代表全數在場，備妥現場操作人員與各項量測紀錄。",
+        preReq: "現場各項安全閥初噴/停噴及耐壓測試 100% 合格",
+        deliverable: "代檢機構現場檢查初驗核可紀錄表",
+        leadTime: "⚠️ 工檢通過後，預計 3 週後取證",
+        calendarNotice: "審查排檢歷時 22 天 (16 工作天)，排定週五現場驗收"
+      },
+      {
+        id: 13,
+        date: "12/31",
+        weekday: "四",
+        yearDate: "2026/12/31",
+        intervalDays: 20,
+        cumulativeDays: 63,
+        title: "取得許可",
+        dept: "All",
+        type: "yellow",
+        note: "竣工合格證照正式取得",
+        detail: "取得勞動檢查機構核發之特種設備竣工檢查合格證，鍋爐正式合法投入產線運轉使用。",
+        actionRequired: "專案結案，移交常態維護保養標準作業程序 (SOP)。",
+        preReq: "12/11 工檢核可通過，主管機關製證審核完成",
+        deliverable: "南科鍋爐正式竣工檢查合格證 (實體證照)",
+        leadTime: "🎯 專案里程碑達成 (全期共 63 天)",
+        calendarNotice: "剛好 20 日曆天 (約 3 週)，完全符合備註②取證時程"
+      }
+    ];
+
+    let currentSelectedId = 1;
+    let currentFilteredDept = 'ALL';
+    let currentViewMode = 'horizontal';
+    let currentFontScale = 100;
+    let currentAppTheme = 'light';
+    let expandedVerticalNodeId = null;
+    let currentMainPage = 'main'; // 'main' | 'calendar' | 'overview'
+    let currentCalendarMonthFilter = 'ALL'; // 'ALL' | '10' | '11' | '12'
+    let isFullScreenActive = false;
+
+    // ----------------- 自訂懸停時間核心參數與計時器管理 -----------------
+    let hoverDelayMs = 300;
+    let hoverDismissMs = 5000;
+    let currentHoverNodeId = null;
+    let hoverTriggerTimeout = null;
+    let hoverDismissTimeout = null;
+    let hoverCountdownInterval = null;
+    let hoverStartTime = 0;
+    let currentSearchTerm = '';
+
+    // 判斷節點是否符合當前篩選條件 (關鍵路徑/單位/搜尋字串)
+    function isItemVisible(item) {
+      // 1. 搜尋關鍵字過濾
+      if (currentSearchTerm) {
+        const term = currentSearchTerm.toLowerCase();
+        const matchesSearch = item.title.toLowerCase().includes(term) ||
+                              item.detail.toLowerCase().includes(term) ||
+                              item.note.toLowerCase().includes(term) ||
+                              item.dept.toLowerCase().includes(term) ||
+                              item.date.includes(term);
+        if (!matchesSearch) return false;
+      }
+
+      // 2. 部門或關鍵路徑篩選
+      if (currentFilteredDept === 'ALL') {
+        return true;
+      }
+      if (currentFilteredDept === 'CRITICAL') {
+        return item.type === 'red';
+      }
+      return item.dept === currentFilteredDept || item.dept === 'All';
+    }
+
+    // ---------------- 頁面切換控制 (主看板 vs. 2026 行事曆分析 vs. 專案全貌總覽) ----------------
+    function switchMainPage(page) {
+      currentMainPage = page;
+      const mainView = document.getElementById('viewMainDashboard');
+      const calView = document.getElementById('viewCalendarPage');
+      const overviewView = document.getElementById('viewOverviewPage');
+      
+      const navMainBtn = document.getElementById('navMainPageBtn');
+      const navCalBtn = document.getElementById('navCalendarPageBtn');
+      const navOverviewBtn = document.getElementById('navOverviewPageBtn');
+
+      // 重設所有按鈕樣式
+      [navMainBtn, navCalBtn, navOverviewBtn].forEach(b => {
+        if (!b) return;
+        b.className = "px-2.5 sm:px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5";
+      });
+
+      mainView.classList.add('hidden');
+      calView.classList.add('hidden');
+      overviewView.classList.add('hidden');
+
+      if (page === 'calendar') {
+        calView.classList.remove('hidden');
+        if (navCalBtn) navCalBtn.className = "px-2.5 sm:px-3 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition flex items-center gap-1.5";
+        renderInteractiveCalendar(currentCalendarMonthFilter);
+        renderScheduleBreakdownTable();
+      } else if (page === 'overview') {
+        overviewView.classList.remove('hidden');
+        if (navOverviewBtn) navOverviewBtn.className = "px-2.5 sm:px-3 py-1.5 rounded-lg bg-white shadow-xs text-indigo-700 font-bold transition flex items-center gap-1.5";
+        renderOverviewSimulator(parseInt(document.getElementById('timelineSimulatorSlider')?.value || 0, 10));
+      } else {
+        mainView.classList.remove('hidden');
+        if (navMainBtn) navMainBtn.className = "px-2.5 sm:px-3 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition flex items-center gap-1.5";
+        renderHorizontalTimeline();
+        renderVerticalTimeline();
+        renderGridTimeline();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ---------------- 全域即時關鍵字搜尋 ----------------
+    function handleGlobalSearch(keyword) {
+      currentSearchTerm = (keyword || '').trim().toLowerCase();
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (clearBtn) {
+        clearBtn.classList.toggle('hidden', currentSearchTerm === '');
+      }
+
+      if (!currentSearchTerm) {
+        renderHorizontalTimeline();
+        renderVerticalTimeline();
+        renderGridTimeline();
+        return;
+      }
+
+      // 如果在全貌頁面或行事曆，提示使用者或搜尋主看板
+      if (currentMainPage !== 'main') {
+        switchMainPage('main');
+      }
+
+      const matched = projectMilestones.filter(item => isItemVisible(item));
+
+      if (matched.length > 0) {
+        selectMilestone(matched[0].id, false);
+      }
+
+      // 高亮渲染
+      renderHorizontalTimeline();
+      renderVerticalTimeline();
+      renderGridTimeline();
+      showToast(`搜尋 "${keyword}"：找到 ${matched.length} 個關聯節點`);
+    }
+
+    function clearGlobalSearch() {
+      const input = document.getElementById('globalSearchInput');
+      if (input) input.value = '';
+      handleGlobalSearch('');
+    }
+
+    // ---------------- 全螢幕切換 ----------------
+    function toggleFullScreen() {
+      const icon = document.getElementById('fullscreenIcon');
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().then(() => {
+          isFullScreenActive = true;
+          if (icon) icon.className = "fa-solid fa-compress text-sky-600";
+          showToast("已切換為全螢幕簡報模式 (按 Esc 或 F 鍵退出)");
+        }).catch(() => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().then(() => {
+            isFullScreenActive = false;
+            if (icon) icon.className = "fa-solid fa-expand text-slate-600";
+            showToast("已退出全螢幕模式");
+          });
+        }
+      }
+    }
+
+    // ---------------- 晨會 / 週報進度文字一鍵生成與複製 ----------------
+    function copyStatusReport() {
+      const totalMilestones = projectMilestones.length;
+      const checkedBoxes = document.querySelectorAll('#taskChecklist input[type="checkbox"]:checked').length;
+      const checklistPct = Math.round((checkedBoxes / 7) * 100);
+
+      const reportText = 
+`【南科鍋爐取得竣工許可 計畫期程晨報】
+=========================================
+• 專案基準：2026/10/30 (五) ~ 2026/12/31 (四)
+• 期程跨度：全案共 63 日曆天 (13 個管制節點)
+• 前置整備完成率：${checklistPct}% (7大核心工項已核簽 ${checkedBoxes}/7 項)
+• 下一階段重大瓶頸：
+  - 11/07 (六) ~ 11/08 (日)：量測與逃生開口 (需假日施工證)
+  - 11/10 (二)：代檢改善建議 100% 結案
+  - 11/16 (一)：正式發文取得字號方可預約工檢
+  - 12/11 (五)：代檢現場檢查核可
+  - 12/31 (四)：預計取得竣工檢查合格證
+• 熱媒技術核心：THERMINOL 66 設定 345°C (沸點 359°C，常壓液相運行，不需氮封安全可控)
+=========================================
+(Cyntec A Delta Group Company • 南科廠務與環安)`;
+
+      // 使用 fallback 複製機制確保相容性
+      const dummy = document.createElement("textarea");
+      document.body.appendChild(dummy);
+      dummy.value = reportText;
+      dummy.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummy);
+
+      showToast("📋 晨報進度摘要已成功複製至剪貼簿！可直接貼至 Teams / Line / Email");
+    }
+
+    // ---------------- 動態進度模擬器 ----------------
+    function onSimulatorSliderChange(dayOffset) {
+      renderOverviewSimulator(parseInt(dayOffset, 10));
+    }
+
+    function setSimulatePreset(dayOffset) {
+      const slider = document.getElementById('timelineSimulatorSlider');
+      if (slider) {
+        slider.value = dayOffset;
+      }
+      renderOverviewSimulator(dayOffset);
+    }
+
+    function renderOverviewSimulator(dayOffset) {
+      // 基準日 2026/10/30
+      const startDate = new Date(2026, 9, 30); // month is 0-indexed (9 = Oct)
+      const targetDate = new Date(startDate.getTime() + dayOffset * 86400000);
+      
+      const mm = targetDate.getMonth() + 1;
+      const dd = targetDate.getDate();
+      const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+      const wk = weekdays[targetDate.getDay()];
+      const dateStr = `2026/${mm < 10 ? '0' + mm : mm}/${dd < 10 ? '0' + dd : dd} (${wk})`;
+
+      const pct = Math.round((dayOffset / 62) * 100);
+      const remainingDays = Math.max(0, 62 - dayOffset);
+
+      const dDisplay = document.getElementById('simCurrentDateDisplay');
+      const pDisplay = document.getElementById('simPercentDisplay');
+      const idxDisplay = document.getElementById('simDayIndexDisplay');
+      const remDisplay = document.getElementById('simDaysRemainingDisplay');
+
+      if (dDisplay) dDisplay.textContent = dateStr;
+      if (pDisplay) pDisplay.textContent = `${pct}%`;
+      if (idxDisplay) idxDisplay.textContent = `${dayOffset + 1}`;
+      if (remDisplay) remDisplay.textContent = `${remainingDays} 天`;
+
+      // 判定當前已通過或正在進行的節點
+      const targetTime = targetDate.getTime();
+      let activeMilestone = projectMilestones[0];
+      let completedCount = 0;
+
+      projectMilestones.forEach(m => {
+        const parts = m.yearDate.split('/');
+        const mDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])).getTime();
+        if (targetTime >= mDate) {
+          activeMilestone = m;
+          completedCount++;
+        }
+      });
+
+      const nextMilestone = projectMilestones.find(m => {
+        const parts = m.yearDate.split('/');
+        const mDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])).getTime();
+        return mDate > targetTime;
+      });
+
+      const card = document.getElementById('simFeedbackCard');
+      if (card) {
+        card.innerHTML = `
+          <div class="space-y-1">
+            <span class="text-slate-400 font-medium block text-[11px]">當前所在管制點：</span>
+            <div class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full ${activeMilestone.type === 'red' ? 'bg-rose-500' : 'bg-sky-500'}"></span>
+              ${activeMilestone.title} (${activeMilestone.date})
+            </div>
+            <p class="text-slate-500 text-[11px] leading-snug">${activeMilestone.note}</p>
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-slate-400 font-medium block text-[11px]">即將面臨下一個節點：</span>
+            <div class="font-bold text-indigo-700 text-sm">
+              ${nextMilestone ? `${nextMilestone.title} (${nextMilestone.date})` : '🎉 已抵達最終取證日'}
+            </div>
+            <p class="text-slate-500 text-[11px] leading-snug">
+              ${nextMilestone ? `主責：${nextMilestone.dept} • 交付物：${nextMilestone.deliverable}` : '已全案竣工核可合格'}
+            </p>
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-slate-400 font-medium block text-[11px]">模擬時間點注意事項：</span>
+            <div class="text-[11px] font-semibold ${targetDate.getDay() === 0 || targetDate.getDay() === 6 ? 'text-rose-600' : 'text-amber-700'}">
+              ${activeMilestone.calendarNotice}
+            </div>
+            <div class="text-[10px] text-slate-400 font-mono">累計進度節點：${completedCount} / 13 (${Math.round((completedCount/13)*100)}%)</div>
+          </div>
+        `;
+      }
+    }
+
+    // ---------------- 鍵盤快捷鍵監聽 ----------------
+    document.addEventListener('keydown', (e) => {
+      // 避免在搜尋框輸入時觸發快捷鍵
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+      if (e.key === '1') {
+        switchMainPage('main');
+      } else if (e.key === '2') {
+        switchMainPage('calendar');
+      } else if (e.key === '3') {
+        switchMainPage('overview');
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullScreen();
+      } else if (e.key === 'Escape') {
+        closeMobileSheet();
+        closeHoverSettingsModal();
+        closeCalDayBox();
+      }
+    });
+
+    // 從月曆快速跳轉回主看板並定位到特定節點
+    function jumpToMainNodeFromCalendar(id) {
+      switchMainPage('main');
+      selectMilestone(id, true);
+      const drawer = document.getElementById('nodeDetailDrawer');
+      if (drawer) {
+        drawer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // 字型縮放控制
+    function changeFontSize(delta) {
+      currentFontScale = Math.min(140, Math.max(80, currentFontScale + delta));
+      applyFontSize();
+    }
+
+    function resetFontSize() {
+      currentFontScale = 100;
+      applyFontSize();
+    }
+
+    function applyFontSize() {
+      document.documentElement.style.fontSize = `${(currentFontScale / 100) * 16}px`;
+      const display = document.getElementById('fontScaleDisplay');
+      if (display) display.textContent = `${currentFontScale}%`;
+
+      // 重新計算懸停視窗位置以防字體縮放後邊界溢出
+      const tooltip = document.getElementById('hoverPreviewTooltip');
+      if (tooltip && tooltip.classList.contains('show')) {
+        const rect = tooltip.getBoundingClientRect();
+        tooltip.style.top = `${Math.max(10, window.innerHeight - rect.height - 20)}px`;
+      }
+
+      try {
+        localStorage.setItem('cyntec_boiler_font_scale', currentFontScale);
+      } catch (e) {}
+    }
+
+    // 主題色彩切換
+    function setAppTheme(theme) {
+      currentAppTheme = theme;
+      document.body.classList.remove('theme-dark', 'theme-cleanroom');
+
+      const lightBtn = document.getElementById('themeLightBtn');
+      const darkBtn = document.getElementById('themeDarkBtn');
+      const cleanroomBtn = document.getElementById('themeCleanroomBtn');
+
+      [lightBtn, darkBtn, cleanroomBtn].forEach(b => {
+        if (!b) return;
+        b.className = "px-2.5 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 transition flex items-center gap-1";
+      });
+
+      if (theme === 'dark') {
+        document.body.classList.add('theme-dark');
+        if (darkBtn) darkBtn.className = "px-2.5 py-1.5 rounded-lg bg-slate-800 text-sky-400 font-bold transition flex items-center gap-1 shadow-xs border border-slate-700";
+      } else if (theme === 'cleanroom') {
+        document.body.classList.add('theme-cleanroom');
+        if (cleanroomBtn) cleanroomBtn.className = "px-2.5 py-1.5 rounded-lg bg-yellow-400 text-black font-bold transition flex items-center gap-1 shadow-xs";
+      } else {
+        if (lightBtn) lightBtn.className = "px-2.5 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition flex items-center gap-1";
+      }
+
+      try {
+        localStorage.setItem('cyntec_boiler_theme', theme);
+      } catch (e) {}
+    }
+
+    // 載入使用者偏好設定 (含自訂懸停時間)
+    function loadUserPreferences() {
+      try {
+        const savedTheme = localStorage.getItem('cyntec_boiler_theme');
+        if (savedTheme) setAppTheme(savedTheme);
+
+        const savedScale = localStorage.getItem('cyntec_boiler_font_scale');
+        if (savedScale) {
+          currentFontScale = parseInt(savedScale, 10) || 100;
+          applyFontSize();
+        }
+
+        const savedDelay = localStorage.getItem('cyntec_boiler_hover_delay');
+        if (savedDelay) hoverDelayMs = parseInt(savedDelay, 10);
+
+        const savedDismiss = localStorage.getItem('cyntec_boiler_hover_dismiss');
+        if (savedDismiss) hoverDismissMs = parseInt(savedDismiss, 10);
+      } catch (e) {}
+    }
+
+    // 初始化渲染
+    window.addEventListener('DOMContentLoaded', () => {
+      loadUserPreferences();
+
+      if (window.innerWidth < 768) {
+        currentViewMode = 'vertical';
+      }
+      switchTimelineView(currentViewMode);
+      renderHorizontalTimeline();
+      renderVerticalTimeline();
+      renderGridTimeline();
+      renderScheduleBreakdownTable();
+      renderInteractiveCalendar('ALL');
+      selectMilestone(1, false);
+      loadSavedChecklist();
+    });
+
+    // ---------------- 渲染 2026 日程間隔天數分析表 ----------------
+    function renderScheduleBreakdownTable() {
+      const tbody = document.getElementById('scheduleBreakdownTbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      projectMilestones.forEach((item, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = `hover:bg-slate-50 transition cursor-pointer ${item.id === currentSelectedId ? 'bg-sky-50/50' : ''}`;
+        tr.onclick = () => {
+          jumpToMainNodeFromCalendar(item.id);
+        };
+
+        const isWeekend = item.weekday === '六' || item.weekday === '日';
+        const weekdayBadge = isWeekend 
+          ? `<span class="px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 font-bold">(${item.weekday}) 週末</span>`
+          : `<span class="text-slate-500 font-mono">(${item.weekday})</span>`;
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 font-mono font-bold text-slate-400">${idx + 1}</td>
+          <td class="py-2.5 px-3 font-bold text-slate-900 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full ${item.type === 'red' ? 'bg-rose-500' : (item.type === 'yellow' ? 'bg-yellow-400' : 'bg-sky-500')}"></span>
+            ${item.title}
+          </td>
+          <td class="py-2.5 px-3 font-mono font-bold text-slate-800">${item.date} ${weekdayBadge}</td>
+          <td class="py-2.5 px-3 text-center font-mono font-bold ${item.intervalDays > 10 ? 'text-indigo-600' : (item.intervalDays === 1 ? 'text-amber-600' : 'text-slate-700')}">
+            ${item.intervalDays === 0 ? '-' : `+${item.intervalDays} 天`}
+          </td>
+          <td class="py-2.5 px-3 text-center font-mono text-slate-500">第 ${item.cumulativeDays} 天</td>
+          <td class="py-2.5 px-3">
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">${item.dept}</span>
+          </td>
+          <td class="py-2.5 px-3 text-[11px] ${isWeekend ? 'text-rose-600 font-bold' : 'text-slate-600'}">
+            ${item.calendarNotice}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ---------------- 渲染 2026 互動月曆 (October, November, December) ----------------
+    function filterCalendarMonth(month) {
+      currentCalendarMonthFilter = month;
+      const bAll = document.getElementById('calBtnAll');
+      const b10 = document.getElementById('calBtn10');
+      const b11 = document.getElementById('calBtn11');
+      const b12 = document.getElementById('calBtn12');
+
+      [bAll, b10, b11, b12].forEach(b => {
+        if (!b) return;
+        b.className = "px-2.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition";
+      });
+
+      if (month === '10' && b10) b10.className = "px-2.5 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition";
+      else if (month === '11' && b11) b11.className = "px-2.5 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition";
+      else if (month === '12' && b12) b12.className = "px-2.5 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition";
+      else if (bAll) bAll.className = "px-2.5 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition";
+
+      renderInteractiveCalendar(month);
+    }
+
+    function renderInteractiveCalendar(monthFilter = 'ALL') {
+      const container = document.getElementById('interactiveCalendarContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      // 2026 月曆結構定義
+      // 2026/10: 10/1為星期四 (Thursday = 4), 31天
+      // 2026/11: 11/1為星期日 (Sunday = 0), 30天
+      // 2026/12: 12/1為星期二 (Tuesday = 2), 31天
+      const monthConfigs = [
+        { month: '10', name: '2026 年 10 月 (專案啟動月)', startDay: 4, totalDays: 31 },
+        { month: '11', name: '2026 年 11 月 (主工期衝刺與發文審查月)', startDay: 0, totalDays: 30 },
+        { month: '12', name: '2026 年 12 月 (法定代檢與竣工取證月)', startDay: 2, totalDays: 31 }
+      ];
+
+      const filteredConfigs = monthFilter === 'ALL' 
+        ? monthConfigs 
+        : monthConfigs.filter(m => m.month === monthFilter);
+
+      filteredConfigs.forEach(mCfg => {
+        const monthWrapper = document.createElement('div');
+        monthWrapper.className = "bg-slate-50/70 border border-slate-200 rounded-2xl p-4 space-y-3";
+
+        // 月份標頭
+        monthWrapper.innerHTML = `
+          <div class="flex items-center justify-between pb-2 border-b border-slate-200/80">
+            <h4 class="font-black text-slate-900 text-sm flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-sky-600 text-white flex items-center justify-center text-xs font-mono font-bold">${mCfg.month}</span>
+              <span>${mCfg.name}</span>
+            </h4>
+            <span class="text-[11px] text-slate-500 font-mono">2026 行事曆</span>
+          </div>
+
+          <!-- 星期標題表頭 -->
+          <div class="grid grid-cols-7 gap-1 text-center font-bold text-xs text-slate-600 mb-1">
+            <div class="text-rose-600 py-1 rounded bg-rose-50/50">日 (Sun)</div>
+            <div class="py-1">一 (Mon)</div>
+            <div class="py-1">二 (Tue)</div>
+            <div class="py-1">三 (Wed)</div>
+            <div class="py-1">四 (Thu)</div>
+            <div class="py-1">五 (Fri)</div>
+            <div class="text-rose-600 py-1 rounded bg-rose-50/50">六 (Sat)</div>
+          </div>
+
+          <!-- 日期網格 -->
+          <div class="grid grid-cols-7 gap-1 text-xs" id="calGrid_${mCfg.month}">
+          </div>
+        `;
+
+        container.appendChild(monthWrapper);
+        const grid = monthWrapper.querySelector(`#calGrid_${mCfg.month}`);
+
+        // 填充月初空白天數
+        for (let i = 0; i < mCfg.startDay; i++) {
+          const blank = document.createElement('div');
+          blank.className = "h-16 md:h-20 rounded-xl bg-slate-100/40 border border-dashed border-slate-200/60";
+          grid.appendChild(blank);
+        }
+
+        // 填充該月每一天
+        for (let day = 1; day <= mCfg.totalDays; day++) {
+          const dayStr = day < 10 ? `0${day}` : `${day}`;
+          const dateKey = `${mCfg.month}/${dayStr}`;
+          const currentWeekdayIndex = (mCfg.startDay + day - 1) % 7;
+          const isWeekend = currentWeekdayIndex === 0 || currentWeekdayIndex === 6;
+
+          // 匹配是否有當日管制節點
+          const milestone = projectMilestones.find(item => item.date === dateKey);
+
+          const dayCell = document.createElement('div');
+          let cellBgClass = isWeekend ? "bg-rose-50/40 border-rose-100" : "bg-white border-slate-200/80";
+          let cursorClass = milestone ? "cursor-pointer hover:border-sky-400 hover:shadow-md ring-1 ring-transparent" : "";
+
+          if (milestone) {
+            if (milestone.type === 'red') cellBgClass = "bg-rose-50/80 border-rose-300 ring-1 ring-rose-400/50";
+            else if (milestone.type === 'yellow') cellBgClass = "bg-yellow-50/80 border-yellow-300 ring-1 ring-yellow-400/60";
+            else cellBgClass = "bg-sky-50/80 border-sky-300 ring-1 ring-sky-400/50";
+          }
+
+          dayCell.className = `h-16 md:h-20 p-1.5 rounded-xl border ${cellBgClass} ${cursorClass} flex flex-col justify-between transition-all overflow-hidden relative group`;
+
+          let milestoneBadgeHtml = '';
+          if (milestone) {
+            let badgeBg = milestone.type === 'red' ? 'bg-rose-500 text-white' : (milestone.type === 'yellow' ? 'bg-yellow-400 text-yellow-950' : 'bg-sky-600 text-white');
+            milestoneBadgeHtml = `
+              <div class="mt-0.5">
+                <span class="block truncate px-1 py-0.5 rounded text-[10px] font-bold ${badgeBg}">
+                  ${milestone.title}
+                </span>
+                <span class="hidden md:block truncate text-[9px] text-slate-500 font-medium scale-90 -ml-1">
+                  ${milestone.dept}
+                </span>
+              </div>
+            `;
+          }
+
+          dayCell.innerHTML = `
+            <div class="flex items-center justify-between leading-none">
+              <span class="font-mono font-bold text-xs ${isWeekend ? 'text-rose-600' : 'text-slate-700'}">${day}</span>
+              ${isWeekend && !milestone ? '<span class="text-[9px] text-rose-400 scale-90">休</span>' : ''}
+              ${milestone && isWeekend ? '<span class="text-[9px] bg-rose-600 text-white font-bold px-1 rounded scale-90">假日施工!</span>' : ''}
+            </div>
+            ${milestoneBadgeHtml}
+            ${milestone ? '<div class="absolute bottom-0 left-0 right-0 h-1 bg-current opacity-20"></div>' : ''}
+          `;
+
+          if (milestone) {
+            dayCell.onclick = () => showCalendarDayDetail(milestone);
+          }
+
+          grid.appendChild(dayCell);
+        }
+      });
+    }
+
+    // 顯示月曆點擊的當日卡片
+    function showCalendarDayDetail(milestone) {
+      const box = document.getElementById('calendarDayDetailBox');
+      if (!box) return;
+
+      document.getElementById('calBoxDate').textContent = `2026/${milestone.date} (${milestone.weekday})`;
+      document.getElementById('calBoxTitle').textContent = `${milestone.title} - ${milestone.note}`;
+      document.getElementById('calBoxDesc').textContent = milestone.detail;
+      document.getElementById('calBoxNotice').textContent = `📅 2026 行事曆特性：${milestone.calendarNotice}`;
+
+      const badge = document.getElementById('calBoxBadge');
+      const dot = document.getElementById('calBoxDot');
+      const goBtn = document.getElementById('calBoxGoBtn');
+
+      goBtn.onclick = () => jumpToMainNodeFromCalendar(milestone.id);
+
+      if (milestone.type === 'red') {
+        badge.className = "text-[11px] px-2 py-0.5 rounded font-bold bg-rose-100 text-rose-700";
+        badge.textContent = "重大瓶頸 / 關鍵管制";
+        dot.className = "w-3.5 h-3.5 rounded-full bg-rose-500 mt-1 shrink-0";
+      } else if (milestone.type === 'yellow') {
+        badge.className = "text-[11px] px-2 py-0.5 rounded font-bold bg-yellow-100 text-yellow-800";
+        badge.textContent = "最終目標 / 取得許可證";
+        dot.className = "w-3.5 h-3.5 rounded-full bg-yellow-400 mt-1 shrink-0";
+      } else {
+        badge.className = "text-[11px] px-2 py-0.5 rounded font-bold bg-sky-100 text-sky-800";
+        badge.textContent = `主責：${milestone.dept}`;
+        dot.className = "w-3.5 h-3.5 rounded-full bg-sky-500 mt-1 shrink-0";
+      }
+
+      box.classList.remove('hidden');
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function closeCalDayBox() {
+      const box = document.getElementById('calendarDayDetailBox');
+      if (box) box.classList.add('hidden');
+    }
+
+    // ---------------- 渲染橫向滑動時間軸 ----------------
+    function renderHorizontalTimeline() {
+      const container = document.getElementById('timelineNodesContainer');
+      container.innerHTML = '';
+
+      projectMilestones.forEach((item, index) => {
+        const isSelected = item.id === currentSelectedId;
+        const visible = isItemVisible(item);
+        
+        let dotColorClass = "bg-sky-500 border-white text-white shadow-sky-500/30";
+        let pulseClass = "";
+        if (item.type === 'red') {
+          dotColorClass = "bg-rose-500 border-white text-white shadow-rose-500/30";
+          pulseClass = "pulse-effect";
+        } else if (item.type === 'yellow') {
+          dotColorClass = "bg-yellow-400 border-yellow-200 text-yellow-950 shadow-yellow-400/40";
+        }
+
+        const opacityClass = visible ? "opacity-100" : "opacity-25 grayscale";
+
+        const node = document.createElement('div');
+        node.className = `flex flex-col items-center text-center cursor-pointer transition-all duration-200 group ${opacityClass}`;
+        
+        node.onclick = () => selectMilestone(item.id, true);
+
+        // 自訂懸停延遲與同區域防重複觸發
+        node.onmouseenter = (e) => handleNodeMouseEnter(e, item);
+        node.onmousemove = (e) => handleNodeMouseMove(e, item);
+        node.onmouseleave = (e) => handleNodeMouseLeave(e);
+
+        node.innerHTML = `
+          <!-- 頂部工作項目名稱 -->
+          <div class="h-14 flex items-end justify-center pb-2">
+            <span class="text-xs font-bold ${isSelected ? 'text-sky-600 scale-105 underline decoration-2' : 'text-slate-800 group-hover:text-sky-600'} transition whitespace-nowrap">
+              ${item.title}
+            </span>
+          </div>
+
+          <!-- 圓形指標 (Dot) -->
+          <div class="relative my-1 flex items-center justify-center">
+            <div class="w-8 h-8 rounded-full border-2 ${dotColorClass} flex items-center justify-center font-bold text-xs shadow-md transition-transform duration-200 group-hover:scale-110 ${pulseClass}">
+              ${item.type === 'yellow' ? '<i class="fa-solid fa-star text-[10px]"></i>' : (item.type === 'red' ? '!' : index + 1)}
+            </div>
+          </div>
+
+          <!-- 日期標籤與 2026 星期 -->
+          <div class="mt-2">
+            <span class="text-xs font-black font-mono px-2 py-0.5 rounded-full ${isSelected ? 'bg-slate-900 text-white ring-2 ring-sky-400' : 'bg-slate-100 text-slate-700'}">
+              ${item.date} <span class="text-[10px] font-normal text-slate-400">(${item.weekday})</span>
+            </span>
+          </div>
+
+          <!-- 負責權責與間隔天數 -->
+          <div class="mt-1 flex flex-col items-center">
+            <span class="text-[11px] font-semibold text-slate-500 group-hover:text-slate-800">
+              ${item.dept}
+            </span>
+            <span class="text-[10px] font-mono text-slate-400">
+              ${item.intervalDays > 0 ? `+${item.intervalDays}d` : 'Start'}
+            </span>
+          </div>
+        `;
+
+        container.appendChild(node);
+      });
+    }
+
+    // ---------------- 渲染直式時間軸 ----------------
+    function renderVerticalTimeline() {
+      const container = document.getElementById('timelineVerticalNodesContainer');
+      container.innerHTML = '';
+
+      projectMilestones.forEach((item, index) => {
+        if (!isItemVisible(item)) return;
+
+        const isSelected = item.id === currentSelectedId;
+        const isExpanded = expandedVerticalNodeId === item.id;
+        
+        let dotColorClass = "bg-sky-500 text-white";
+        let pulseClass = "";
+        let borderClass = "border-slate-200 hover:border-sky-300";
+
+        if (item.type === 'red') {
+          dotColorClass = "bg-rose-500 text-white ring-4 ring-rose-100";
+          pulseClass = "pulse-effect";
+          borderClass = "border-rose-200 bg-rose-50/20";
+        } else if (item.type === 'yellow') {
+          dotColorClass = "bg-yellow-400 text-yellow-950 ring-4 ring-yellow-100";
+          borderClass = "border-yellow-300 bg-yellow-50/20";
+        }
+
+        if (isSelected) {
+          borderClass = "border-sky-500 ring-2 ring-sky-500/30 bg-sky-50/30";
+        }
+
+        const stepCard = document.createElement('div');
+        stepCard.className = "flex items-start gap-3 sm:gap-6 group";
+
+        stepCard.onmouseenter = (e) => {
+          if (window.innerWidth >= 768 && !isExpanded) handleNodeMouseEnter(e, item);
+        };
+        stepCard.onmousemove = (e) => {
+          if (window.innerWidth >= 768 && !isExpanded) handleNodeMouseMove(e, item);
+        };
+        stepCard.onmouseleave = (e) => handleNodeMouseLeave(e);
+
+        stepCard.innerHTML = `
+          <!-- 節點圖標 -->
+          <div onclick="toggleVerticalAccordion(${item.id})" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full ${dotColorClass} flex items-center justify-center font-bold text-xs sm:text-sm shadow-md shrink-0 transition-transform duration-200 group-hover:scale-110 cursor-pointer ${pulseClass}">
+            ${item.type === 'yellow' ? '<i class="fa-solid fa-star"></i>' : (item.type === 'red' ? '!' : index + 1)}
+          </div>
+
+          <!-- 節點卡片 -->
+          <div class="flex-1 bg-white border ${borderClass} rounded-2xl p-4 shadow-2xs hover:shadow-md transition">
+            <div onclick="toggleVerticalAccordion(${item.id})" class="cursor-pointer">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-black font-mono px-2 py-0.5 rounded-md bg-slate-900 text-white">${item.date} (${item.weekday})</span>
+                  <h4 class="font-bold text-slate-900 text-base">${item.title}</h4>
+                  ${item.intervalDays > 0 ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">+${item.intervalDays}天</span>` : ''}
+                  ${item.type === 'red' ? '<span class="text-[11px] px-2 py-0.5 rounded bg-rose-100 text-rose-700 font-bold">關鍵承諾</span>' : ''}
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold">主責: ${item.dept}</span>
+                  <button class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 text-xs transition transform ${isExpanded ? 'rotate-180 bg-sky-100 text-sky-700' : ''}">
+                    <i class="fa-solid fa-chevron-down"></i>
+                  </button>
+                </div>
+              </div>
+
+              <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">${item.detail}</p>
+              <div class="mt-1 text-[11px] text-amber-700 font-medium">
+                <i class="fa-solid fa-circle-exclamation mr-1 text-amber-500"></i>2026日曆提醒：${item.calendarNotice}
+              </div>
+            </div>
+            
+            ${isExpanded ? `
+              <div class="mt-3 pt-3 border-t border-slate-100 space-y-2.5 text-xs animate-fadeIn">
+                <div class="p-3 bg-amber-50 rounded-xl border border-amber-200/80 text-amber-900">
+                  <div class="font-bold flex items-center gap-1.5 mb-1">
+                    <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                    <span>工程執行要項 / 審核要點</span>
+                  </div>
+                  <div>${item.actionRequired}</div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200">
+                    <span class="text-slate-400 font-medium block text-[11px]">前置依賴條件</span>
+                    <span class="font-semibold text-slate-800 block mt-0.5">${item.preReq}</span>
+                  </div>
+                  <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200">
+                    <span class="text-slate-400 font-medium block text-[11px]">核心交付成果物</span>
+                    <span class="font-semibold text-sky-700 block mt-0.5">${item.deliverable}</span>
+                  </div>
+                </div>
+              </div>
+            ` : ''}
+
+            <div class="mt-3 pt-2 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs gap-2">
+              <span class="text-[11px] text-slate-500 font-mono"><i class="fa-solid fa-stopwatch mr-1 text-slate-400"></i>${item.leadTime}</span>
+              <button onclick="selectMilestone(${item.id}, true)" class="text-sky-600 font-bold hover:underline flex items-center gap-1">
+                <span>詳細面板</span> &rarr;
+              </button>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(stepCard);
+      });
+    }
+
+    // ---------------- 渲染網格卡片 ----------------
+    function renderGridTimeline() {
+      const container = document.getElementById('timelineGridView');
+      container.innerHTML = '';
+
+      projectMilestones.forEach((item) => {
+        if (!isItemVisible(item)) return;
+
+        let badgeBg = "bg-sky-50 text-sky-700 border-sky-200";
+        if (item.type === 'red') badgeBg = "bg-rose-50 text-rose-700 border-rose-200";
+        if (item.type === 'yellow') badgeBg = "bg-yellow-50 text-yellow-800 border-yellow-200";
+
+        const card = document.createElement('div');
+        card.className = `p-4 rounded-xl border border-slate-200 bg-white hover:border-sky-300 hover:shadow-sm cursor-pointer transition flex flex-col justify-between ${item.id === currentSelectedId ? 'ring-2 ring-sky-500' : ''}`;
+        
+        card.onclick = () => selectMilestone(item.id, true);
+
+        card.onmouseenter = (e) => handleNodeMouseEnter(e, item);
+        card.onmousemove = (e) => handleNodeMouseMove(e, item);
+        card.onmouseleave = (e) => handleNodeMouseLeave(e);
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm font-mono font-black text-slate-900">${item.date} (${item.weekday})</span>
+              <span class="text-xs px-2 py-0.5 rounded-md font-semibold border ${badgeBg}">
+                ${item.type === 'red' ? '關鍵管制' : (item.type === 'yellow' ? '最終目標' : '執行作業')}
+              </span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-base mb-1">${item.title}</h4>
+            <p class="text-xs text-slate-500 leading-normal line-clamp-2">${item.detail}</p>
+          </div>
+          <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="text-slate-400">主責: <strong class="text-slate-700">${item.dept}</strong></span>
+            <span class="text-sky-600 font-medium font-mono">${item.intervalDays > 0 ? `+${item.intervalDays}天` : '開始'} &rarr;</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // ---------------- 直式視圖折疊展開 ----------------
+    function toggleVerticalAccordion(id) {
+      expandedVerticalNodeId = expandedVerticalNodeId === id ? null : id;
+      currentSelectedId = id;
+      renderVerticalTimeline();
+    }
+
+    // ---------------- 選擇節點 ----------------
+    function selectMilestone(id, triggerMobileSheet = false) {
+      currentSelectedId = id;
+      const item = projectMilestones.find(m => m.id === id);
+      if (!item) return;
+
+      document.getElementById('detailDate').textContent = `${item.date} (${item.weekday})`;
+      document.getElementById('detailTitle').textContent = item.title;
+      document.getElementById('detailOwner').textContent = `${item.dept} 單位`;
+      document.getElementById('detailDesc').textContent = item.detail;
+      document.getElementById('detailPreReq').textContent = item.preReq;
+      document.getElementById('detailDeliverable').textContent = item.deliverable;
+      
+      const badge = document.getElementById('detailBadge');
+      if (item.type === 'red') {
+        badge.className = "px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider bg-rose-500 text-white";
+        badge.textContent = "重大瓶頸 / 關鍵管制節點";
+      } else if (item.type === 'yellow') {
+        badge.className = "px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider bg-yellow-400 text-yellow-950";
+        badge.textContent = "專案終極目標 / 取得許可證";
+      } else {
+        badge.className = "px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider bg-sky-500 text-white";
+        badge.textContent = "常規工程推進節點";
+      }
+
+      document.getElementById('detailExtra').innerHTML = `
+        <div class="font-bold mb-1 flex items-center">
+          <i class="fa-solid fa-circle-exclamation mr-1.5 text-amber-400"></i>
+          作業重點與 2026 日曆要項:
+        </div>
+        <div class="mb-1 text-slate-100">${item.actionRequired || item.note}</div>
+        <div class="text-[11px] text-amber-300 font-mono">📅 2026時程特性：${item.calendarNotice}</div>
+      `;
+
+      if (triggerMobileSheet && window.innerWidth < 768) {
+        openMobileSheet(item);
+      }
+    }
+
+    // ---------------- 滑鼠懸停邏輯 (延遲觸發、5秒自動隱藏、自適應自訂字體大小) ----------------
+    let hoverTooltip = null;
+    let timerBar = null;
+    let timerRemainingText = null;
+
+    function initHoverElements() {
+      if (!hoverTooltip) hoverTooltip = document.getElementById('hoverPreviewTooltip');
+      if (!timerBar) timerBar = document.getElementById('hoverTimerBar');
+      if (!timerRemainingText) timerRemainingText = document.getElementById('ttTimerRemaining');
+    }
+
+    function handleNodeMouseEnter(e, item) {
+      if (window.innerWidth < 768) return;
+      initHoverElements();
+
+      // 如果滑鼠移動到「同一個」節點，絕不重新觸發計時或閃爍
+      if (currentHoverNodeId === item.id) {
+        return;
+      }
+
+      // 如果移到另一個節點，先清空前一個節點的計時器與提示框
+      clearHoverTimers();
+      currentHoverNodeId = item.id;
+
+      // 設定需停留特定毫秒 (hoverDelayMs，預設 300ms) 後才開啟
+      hoverTriggerTimeout = setTimeout(() => {
+        displayHoverTooltipContent(item);
+        updateHoverTooltipPos(e);
+        if (hoverTooltip) hoverTooltip.classList.add('show');
+
+        // 啟動 5 秒（hoverDismissMs）自動關閉與進度條倒數
+        startHoverDismissTimer();
+      }, hoverDelayMs);
+    }
+
+    function handleNodeMouseMove(e, item) {
+      if (window.innerWidth < 768) return;
+      initHoverElements();
+
+      // 若滑鼠在「同一個節點」區域內滑動，僅平滑移動位置，不重新觸發計時器
+      if (currentHoverNodeId === item.id && hoverTooltip && hoverTooltip.classList.contains('show')) {
+        updateHoverTooltipPos(e);
+      }
+    }
+
+    function handleNodeMouseLeave(e) {
+      initHoverElements();
+      // 若離開節點且移往空白處，清空並隱藏
+      clearHoverTimers();
+      currentHoverNodeId = null;
+      if (hoverTooltip) hoverTooltip.classList.remove('show');
+    }
+
+    function clearHoverTimers() {
+      if (hoverTriggerTimeout) {
+        clearTimeout(hoverTriggerTimeout);
+        hoverTriggerTimeout = null;
+      }
+      if (hoverDismissTimeout) {
+        clearTimeout(hoverDismissTimeout);
+        hoverDismissTimeout = null;
+      }
+      if (hoverCountdownInterval) {
+        clearInterval(hoverCountdownInterval);
+        hoverCountdownInterval = null;
+      }
+    }
+
+    function displayHoverTooltipContent(item) {
+      document.getElementById('ttDate').textContent = item.date;
+      document.getElementById('ttWeekday').textContent = `(${item.weekday})`;
+      document.getElementById('ttTitle').textContent = item.title;
+      document.getElementById('ttDept').textContent = item.dept;
+      document.getElementById('ttPreReq').textContent = item.preReq;
+      document.getElementById('ttDeliverable').textContent = item.deliverable;
+      document.getElementById('ttLeadTime').textContent = item.leadTime;
+      document.getElementById('ttIntervalDays').textContent = item.intervalDays > 0 ? `+${item.intervalDays} 天` : '起始日';
+      document.getElementById('ttCumulativeDays').textContent = `第 ${item.cumulativeDays} 天`;
+
+      const dot = document.getElementById('ttBadge');
+      if (item.type === 'red') dot.className = "w-2.5 h-2.5 rounded-full bg-rose-500 ring-2 ring-rose-200";
+      else if (item.type === 'yellow') dot.className = "w-2.5 h-2.5 rounded-full bg-yellow-400 ring-2 ring-yellow-200";
+      else dot.className = "w-2.5 h-2.5 rounded-full bg-sky-500 ring-2 ring-sky-200";
+    }
+
+    function startHoverDismissTimer() {
+      initHoverElements();
+      hoverStartTime = Date.now();
+      if (timerBar) timerBar.style.width = '100%';
+
+      // 倒數更新頻率 (每 50ms)
+      hoverCountdownInterval = setInterval(() => {
+        const elapsed = Date.now() - hoverStartTime;
+        const remaining = Math.max(0, hoverDismissMs - elapsed);
+        const percent = (remaining / hoverDismissMs) * 100;
+        
+        if (timerBar) timerBar.style.width = `${percent}%`;
+        if (timerRemainingText) timerRemainingText.textContent = `${(remaining / 1000).toFixed(1)}s`;
+
+        if (remaining <= 0) {
+          clearInterval(hoverCountdownInterval);
+        }
+      }, 50);
+
+      // 時間到自動隱藏
+      hoverDismissTimeout = setTimeout(() => {
+        if (hoverTooltip) hoverTooltip.classList.remove('show');
+        clearHoverTimers();
+      }, hoverDismissMs);
+    }
+
+    // 依據字型縮放後的真實尺寸動態計算提示窗座標（避免被游標遮蔽或超出視窗邊界）
+    function updateHoverTooltipPos(e) {
+      initHoverElements();
+      if (!hoverTooltip) return;
+      const x = e.clientX;
+      const y = e.clientY;
+
+      // 動態獲取當前縮放後的真實長寬
+      const rect = hoverTooltip.getBoundingClientRect();
+      const actualHeight = rect.height || 210;
+      const halfWidth = (rect.width || 350) / 2;
+
+      // 優先顯示於游標上方，若上方空間不足則移至下方
+      let targetY = y - actualHeight - 14;
+      if (targetY < 15) {
+        targetY = y + 25;
+      }
+
+      // X 軸邊界自動避讓，避免被瀏覽器左右邊界裁切
+      let targetX = Math.max(halfWidth + 10, Math.min(window.innerWidth - halfWidth - 10, x));
+      hoverTooltip.style.left = `${targetX}px`;
+      hoverTooltip.style.top = `${targetY}px`;
+    }
+
+    // ---------------- 懸停時間自訂 Modal 控制 ----------------
+    function openHoverSettingsModal() {
+      const modal = document.getElementById('hoverSettingsModal');
+      document.getElementById('inputHoverDelay').value = hoverDelayMs;
+      document.getElementById('inputHoverDismiss').value = (hoverDismissMs / 1000).toFixed(1);
+      updateHoverSettingInputs();
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100');
+    }
+
+    function closeHoverSettingsModal() {
+      const modal = document.getElementById('hoverSettingsModal');
+      modal.classList.remove('opacity-100');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    function updateHoverSettingInputs() {
+      const delay = document.getElementById('inputHoverDelay').value;
+      const dismiss = document.getElementById('inputHoverDismiss').value;
+
+      document.getElementById('displayHoverDelay').textContent = `${delay} ms`;
+      document.getElementById('displayHoverDismiss').textContent = `${parseFloat(dismiss).toFixed(1)} 秒`;
+    }
+
+    function saveHoverSettings() {
+      hoverDelayMs = parseInt(document.getElementById('inputHoverDelay').value, 10);
+      hoverDismissMs = parseFloat(document.getElementById('inputHoverDismiss').value) * 1000;
+
+      try {
+        localStorage.setItem('cyntec_boiler_hover_delay', hoverDelayMs);
+        localStorage.setItem('cyntec_boiler_hover_dismiss', hoverDismissMs);
+      } catch (e) {}
+
+      closeHoverSettingsModal();
+      showToast(`已套用：停留 ${hoverDelayMs}ms 觸發，顯示 ${(hoverDismissMs/1000).toFixed(1)} 秒後自動關閉`);
+    }
+
+    function resetHoverSettings() {
+      document.getElementById('inputHoverDelay').value = 300;
+      document.getElementById('inputHoverDismiss').value = 5.0;
+      updateHoverSettingInputs();
+    }
+
+    // ---------------- 手機端滑動抽屜 ----------------
+    function openMobileSheet(item) {
+      const modal = document.getElementById('mobileSheetModal');
+      const backdrop = document.getElementById('mobileSheetBackdrop');
+      const sheet = document.getElementById('mobileDetailSheet');
+
+      document.getElementById('mSheetDate').textContent = `${item.date} (${item.weekday})`;
+      document.getElementById('mSheetTitle').textContent = item.title;
+      document.getElementById('mSheetOwner').textContent = `主責: ${item.dept}`;
+      document.getElementById('mSheetDesc').textContent = item.detail;
+      document.getElementById('mSheetExtra').innerHTML = `
+        <div>${item.actionRequired}</div>
+        <div class="mt-1 pt-1 border-t border-amber-200/60 font-mono text-amber-900">📅 2026特性：${item.calendarNotice}</div>
+      `;
+      document.getElementById('mSheetPreReq').textContent = item.preReq;
+      document.getElementById('mSheetDeliverable').textContent = item.deliverable;
+
+      const badge = document.getElementById('mSheetBadge');
+      if (item.type === 'red') {
+        badge.className = "px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-rose-100 text-rose-700";
+        badge.textContent = "⚠️ 重大瓶頸管制";
+      } else if (item.type === 'yellow') {
+        badge.className = "px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-yellow-100 text-yellow-800";
+        badge.textContent = "🎯 最終取證目標";
+      } else {
+        badge.className = "px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-sky-100 text-sky-800";
+        badge.textContent = "標準工程作業";
+      }
+
+      modal.classList.remove('pointer-events-none');
+      backdrop.classList.remove('opacity-0');
+      backdrop.classList.add('opacity-100');
+      sheet.classList.remove('translate-y-full');
+      sheet.classList.add('translate-y-0');
+    }
+
+    function closeMobileSheet() {
+      const modal = document.getElementById('mobileSheetModal');
+      const backdrop = document.getElementById('mobileSheetBackdrop');
+      const sheet = document.getElementById('mobileDetailSheet');
+
+      backdrop.classList.remove('opacity-100');
+      backdrop.classList.add('opacity-0');
+      sheet.classList.remove('translate-y-0');
+      sheet.classList.add('translate-y-full');
+
+      setTimeout(() => {
+        modal.classList.add('pointer-events-none');
+      }, 250);
+    }
+
+    // 部門篩選
+    function filterDepartment(dept) {
+      currentFilteredDept = dept;
+      document.querySelectorAll('.dept-btn').forEach(btn => {
+        if (btn.getAttribute('data-dept') === dept) {
+          if (dept === 'CRITICAL') {
+            btn.className = "dept-btn active px-2.5 py-1 rounded-lg bg-rose-600 text-white font-bold transition flex items-center gap-1";
+          } else {
+            btn.className = "dept-btn active px-2.5 py-1 rounded-lg bg-sky-600 text-white font-medium transition";
+          }
+        } else {
+          if (btn.getAttribute('data-dept') === 'CRITICAL') {
+            btn.className = "dept-btn px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 font-bold transition flex items-center gap-1";
+          } else {
+            btn.className = "dept-btn px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium transition";
+          }
+        }
+      });
+      renderHorizontalTimeline();
+      renderVerticalTimeline();
+      renderGridTimeline();
+      renderScheduleBreakdownTable();
+    }
+
+    // 視圖切換
+    function switchTimelineView(view) {
+      currentViewMode = view;
+      const scrollView = document.getElementById('timelineScrollView');
+      const verticalView = document.getElementById('timelineVerticalView');
+      const gridView = document.getElementById('timelineGridView');
+      
+      const horizontalBtn = document.getElementById('viewHorizontalBtn');
+      const verticalBtn = document.getElementById('viewVerticalBtn');
+      const gridBtn = document.getElementById('viewGridBtn');
+
+      scrollView.classList.add('hidden');
+      verticalView.classList.add('hidden');
+      gridView.classList.add('hidden');
+
+      [horizontalBtn, verticalBtn, gridBtn].forEach(b => {
+        b.className = "px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5";
+      });
+
+      if (view === 'horizontal') {
+        scrollView.classList.remove('hidden');
+        horizontalBtn.className = "px-3 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition flex items-center gap-1.5";
+      } else if (view === 'vertical') {
+        verticalView.classList.remove('hidden');
+        verticalBtn.className = "px-3 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition flex items-center gap-1.5";
+        renderVerticalTimeline();
+      } else if (view === 'grid') {
+        gridView.classList.remove('hidden');
+        gridBtn.className = "px-3 py-1.5 rounded-lg bg-white shadow-xs text-sky-700 font-bold transition flex items-center gap-1.5";
+        renderGridTimeline();
+      }
+    }
+
+    // 勾選進度計算
+    function updateProgress() {
+      const checkboxes = document.querySelectorAll('#taskChecklist input[type="checkbox"]');
+      const total = checkboxes.length;
+      let checkedCount = 0;
+      const checkedStates = [];
+
+      checkboxes.forEach((cb, idx) => {
+        if (cb.checked) {
+          checkedCount++;
+          checkedStates.push(idx);
+        }
+      });
+
+      try {
+        localStorage.setItem('cyntec_boiler_checklist', JSON.stringify(checkedStates));
+      } catch (e) {}
+
+      const percent = Math.round((checkedCount / total) * 100);
+      document.getElementById('checklistPercentage').textContent = `${percent}%`;
+      document.getElementById('checklistProgressBar').style.width = `${percent}%`;
+
+      if (percent === 100) {
+        showToast("🎉 前置作業 7 大核心工項已全部勾選完成！已具備代檢現勘資格。");
+      }
+    }
+
+    function loadSavedChecklist() {
+      try {
+        const saved = localStorage.getItem('cyntec_boiler_checklist');
+        if (saved) {
+          const checkedStates = JSON.parse(saved);
+          const checkboxes = document.querySelectorAll('#taskChecklist input[type="checkbox"]');
+          checkedStates.forEach(idx => {
+            if (checkboxes[idx]) checkboxes[idx].checked = true;
+          });
+        }
+      } catch(e) {}
+      updateProgress();
+    }
+
+    function resetChecklist() {
+      const checkboxes = document.querySelectorAll('#taskChecklist input[type="checkbox"]');
+      checkboxes.forEach(cb => cb.checked = false);
+      try {
+        localStorage.removeItem('cyntec_boiler_checklist');
+      } catch(e) {}
+      updateProgress();
+      showToast("已重置所有工程勾選項");
+    }
+
+    // Toast 提示訊息
+    let toastTimeout;
+    function showToast(text) {
+      const toast = document.getElementById('toastMessage');
+      const toastText = document.getElementById('toastText');
+      toastText.textContent = text;
+      
+      toast.classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-3', 'pointer-events-none');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
